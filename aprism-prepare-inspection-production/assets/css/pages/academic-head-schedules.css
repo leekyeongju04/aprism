@@ -1,0 +1,316 @@
+@import url("academic-head-registry.css");
+
+.schedules-page-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.schedules-page-shell > .top-navbar {
+  flex: 0 0 auto;
+}
+
+.schedules-workspace {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.schedules-workspace > .page-header {
+  flex: 0 0 auto;
+}
+
+.schedules-page-shell .schedules-workspace .schedule-records-card {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  min-height: 0;
+  margin-bottom: 0;
+  padding: 1.5rem;
+}
+
+.main-content .registry-page.schedules-workspace .schedule-filter-toolbar {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.main-content .registry-page.schedules-workspace .schedule-filter-toolbar .registry-filter-search {
+  grid-column: span 2;
+}
+
+.schedule-filter-actions {
+  display: flex;
+  grid-column: auto;
+  align-items: stretch;
+  justify-content: stretch;
+  gap: .5rem;
+}
+
+.main-content .registry-page.schedules-workspace .schedule-filter-toolbar .schedule-filter-actions .aprism-action-btn {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+}
+
+.schedules-workspace .schedule-records-card .schedule-table-wrapper {
+  flex: 1 0 min-content;
+  min-height: min-content;
+  overflow-y: visible;
+}
+
+.schedules-workspace .registry-table-heading,
+.schedules-workspace .registry-pagination {
+  flex: 0 0 auto;
+}
+
+.schedule-records-card {
+  overflow: visible;
+}
+
+.schedule-records-card {
+  min-width: 0;
+}
+
+.schedule-table-wrapper {
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.academic-schedule-table {
+  min-width: 980px;
+  table-layout: fixed;
+}
+
+.main-content .registry-page .academic-schedule-table th,
+.main-content .registry-page .academic-schedule-table td {
+  min-width: 0;
+  padding: .58rem .55rem;
+  overflow-wrap: anywhere;
+  text-align: left;
+  white-space: normal;
+}
+
+.main-content .registry-page .academic-schedule-table th {
+  font-size: .64rem;
+  letter-spacing: .04em;
+  white-space: normal;
+}
+
+.main-content .registry-page .academic-schedule-table th:nth-child(1),
+.main-content .registry-page .academic-schedule-table td:nth-child(1) { width: 4%; text-align: center; }
+.main-content .registry-page .academic-schedule-table th:nth-child(2),
+.main-content .registry-page .academic-schedule-table td:nth-child(2) { width: 20%; }
+.main-content .registry-page .academic-schedule-table th:nth-child(3),
+.main-content .registry-page .academic-schedule-table td:nth-child(3) { width: 11%; }
+.main-content .registry-page .academic-schedule-table th:nth-child(4),
+.main-content .registry-page .academic-schedule-table td:nth-child(4) { width: 16%; }
+.main-content .registry-page .academic-schedule-table th:nth-child(5),
+.main-content .registry-page .academic-schedule-table td:nth-child(5) { width: 15%; }
+.main-content .registry-page .academic-schedule-table th:nth-child(6),
+.main-content .registry-page .academic-schedule-table td:nth-child(6) { width: 9%; }
+.main-content .registry-page .academic-schedule-table th:nth-child(7),
+.main-content .registry-page .academic-schedule-table td:nth-child(7) { width: 16%; }
+.main-content .registry-page .academic-schedule-table th:nth-child(8),
+.main-content .registry-page .academic-schedule-table td:nth-child(8) { width: 9%; text-align: center; }
+
+.academic-schedule-table .table-row-number {
+  color: #8295a6;
+  font-size: .72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.academic-schedule-table td[data-label="Subject"] strong,
+.academic-schedule-table td[data-label="Teacher"] strong,
+.academic-schedule-table td[data-label="Schedule"] strong,
+.academic-schedule-table td[data-label="Academic Context"] strong {
+  display: block;
+  color: var(--sti-navy);
+  font-weight: 700;
+}
+
+.academic-schedule-table td[data-label="Schedule"] small,
+.academic-schedule-table td[data-label="Academic Context"] small {
+  display: block;
+  margin-top: .16rem;
+  color: #718096;
+  font-size: .72rem;
+}
+
+.schedule-mobile-list {
+  display: none;
+}
+
+.schedule-mobile-card {
+  min-width: 0;
+  padding: .9rem 1rem;
+  border: 1px solid #dbe5ef;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(15, 45, 75, .04);
+}
+
+.schedule-mobile-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .75rem;
+  padding-bottom: .65rem;
+  border-bottom: 1px solid #eef2f7;
+  margin-bottom: .65rem;
+}
+
+.schedule-mobile-card-title {
+  min-width: 0;
+}
+
+.schedule-mobile-card-title strong {
+  display: block;
+  color: var(--sti-navy);
+  font-size: .9rem;
+  font-weight: 750;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.schedule-mobile-card-title small,
+.schedule-mobile-card-field small {
+  display: block;
+  margin-top: .12rem;
+  color: #718096;
+  font-size: .72rem;
+  overflow-wrap: anywhere;
+}
+
+.schedule-mobile-card-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .65rem .9rem;
+}
+
+.schedule-mobile-card-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: .12rem;
+}
+
+.schedule-mobile-card-field.is-wide {
+  grid-column: 1 / -1;
+}
+
+.schedule-mobile-card-field > span {
+  color: #718096;
+  font-size: .64rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.schedule-mobile-card-field > strong {
+  min-width: 0;
+  color: #334155;
+  font-size: .78rem;
+  font-weight: 650;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.schedule-mobile-empty {
+  display: flex;
+  min-height: 220px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  padding: 1rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.schedule-mobile-empty svg {
+  width: 1.8rem;
+  height: 1.8rem;
+  color: #93c5fd;
+}
+
+.schedule-mobile-empty h3 {
+  margin: 0;
+  color: var(--sti-navy);
+  font-size: .95rem;
+}
+
+.schedule-mobile-empty p {
+  max-width: 27rem;
+  margin: 0;
+  color: #64748b;
+  font-size: .78rem;
+}
+
+@media (max-width: 1100px) {
+  .main-content .registry-page.schedules-workspace .schedule-filter-toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .main-content .registry-page.schedules-workspace .schedule-filter-toolbar .registry-filter-search {
+    grid-column: 1 / -1;
+  }
+
+  .schedule-filter-actions {
+    grid-column: 2;
+  }
+
+  .schedules-workspace .schedule-table-wrapper {
+    display: none;
+  }
+
+  .schedules-workspace .schedule-mobile-list {
+    display: grid;
+    flex: 1 0 auto;
+    gap: .65rem;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .main-content .registry-page.schedules-workspace .schedule-filter-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .main-content .registry-page.schedules-workspace .schedule-filter-toolbar .registry-filter-search,
+  .main-content .registry-page.schedules-workspace .schedule-filter-toolbar .schedule-filter-actions {
+    grid-column: 1 / -1;
+  }
+
+  .main-content .registry-page.schedules-workspace .schedule-filter-toolbar .schedule-filter-actions .aprism-action-btn {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  .schedules-workspace .schedule-mobile-card {
+    padding: .8rem .85rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedules-page-shell {
+    display: block;
+    height: auto;
+  }
+
+  .schedules-page-shell > .schedules-workspace,
+  .schedules-workspace .schedule-records-card {
+    display: block;
+    flex: initial;
+  }
+
+  .schedules-workspace .schedule-records-card .schedule-table-wrapper {
+    flex: initial;
+    overflow-y: visible;
+  }
+
+  .schedules-workspace .schedule-mobile-list {
+    flex: initial;
+  }
+}

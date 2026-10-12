@@ -1,0 +1,1518 @@
+/* Teacher Class List: page-specific layout and import-preflight presentation. */
+.teacher-class-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.25rem;
+}
+.teacher-class-meta .teacher-chip {
+  max-width: 100%;
+}
+.teacher-info-box {
+  align-items: flex-start;
+}
+.teacher-info-box .teacher-info-text {
+  max-width: 78rem;
+}
+.teacher-panel:has([data-class-list-body]) {
+  min-width: 0;
+}
+.teacher-panel:has([data-class-list-body]) .teacher-empty-state {
+  min-height: 11.5rem;
+  padding: 2.1rem 1rem;
+}
+.teacher-import-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.18s ease,
+    visibility 0.18s ease;
+}
+.teacher-import-modal[aria-hidden="false"] {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+.teacher-import-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 29, 52, 0.42);
+  backdrop-filter: blur(2px);
+}
+.teacher-import-modal-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(47rem, 100%);
+  max-height: calc(100vh - 2.5rem);
+  overflow: hidden;
+  border: 1px solid #e0e7ef;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow:
+    0 24px 60px rgba(15, 23, 42, 0.18),
+    0 8px 24px rgba(15, 23, 42, 0.08);
+  transform: translateY(8px);
+  transition: transform 0.18s ease;
+}
+.teacher-import-modal[aria-hidden="false"] .teacher-import-modal-dialog {
+  transform: translateY(0);
+}
+.teacher-import-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.45rem 1.65rem 1.2rem;
+  border-bottom: 1px solid #e7edf3;
+}
+.teacher-import-modal-title {
+  margin: 0 0 0.35rem;
+  color: var(--sti-navy);
+  font-size: 1.25rem;
+}
+.teacher-import-modal-description {
+  margin: 0;
+  color: #718096;
+  font-size: 0.82rem;
+}
+.teacher-import-modal-body {
+  overflow-y: auto;
+  padding: 1.35rem 1.65rem 1.5rem;
+}
+.teacher-import-review-note {
+  margin: 0 0 1.15rem;
+}
+.teacher-import-form-field {
+  display: grid;
+  gap: 0.5rem;
+}
+.teacher-import-form-field > label:first-child {
+  color: #334155;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+.teacher-class-list-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.teacher-class-list-upload-control {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 5.8rem;
+  padding: 1rem 1.1rem;
+  border: 1px dashed #b9cce0;
+  border-radius: 14px;
+  background: #f8fbff;
+  color: #334155;
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+.teacher-class-list-upload-control:hover {
+  border-color: var(--sti-blue);
+  background: #f1f7fd;
+  transform: translateY(-1px);
+}
+.teacher-class-list-file-input:focus + .teacher-class-list-upload-control {
+  outline: 3px solid rgba(0, 85, 150, 0.16);
+  outline-offset: 2px;
+}
+.teacher-class-list-upload-icon {
+  width: 2.55rem;
+  height: 2.55rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  background: #e8f3ff;
+  color: var(--sti-blue);
+}
+.teacher-class-list-upload-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.teacher-class-list-upload-copy {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.teacher-class-list-upload-copy strong {
+  color: var(--sti-navy);
+  font-size: 0.86rem;
+}
+.teacher-class-list-upload-copy span,
+.teacher-class-list-file-name {
+  color: #718096;
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+.teacher-class-list-upload-action {
+  margin-left: auto;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid #d6e2ee;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--sti-blue);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+.teacher-class-list-file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.teacher-import-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.35rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e7edf3;
+}
+body.teacher-import-modal-open {
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .teacher-import-modal {
+    align-items: flex-end;
+    padding: 0.75rem;
+  }
+  .teacher-import-modal-dialog {
+    max-height: calc(100vh - 1.5rem);
+  }
+  .teacher-import-modal-header,
+  .teacher-import-modal-body {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .teacher-class-meta {
+    gap: 0.45rem;
+  }
+  .teacher-class-list-upload-control {
+    align-items: flex-start;
+  }
+  .teacher-class-list-upload-action {
+    display: none;
+  }
+  .teacher-import-form-actions {
+    flex-direction: column-reverse;
+  }
+  .teacher-import-form-actions > button {
+    width: 100%;
+  }
+}
+
+/* Class List roster workspace presentation. */
+
+.content-wrapper:has(.teacher-class-list-panel) > .page-header {
+  box-sizing: border-box;
+  padding-inline: clamp(0.55rem, 1.15vw, 1rem);
+}
+
+.teacher-class-workspace-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.teacher-class-workspace-title-block {
+  min-width: 0;
+}
+
+.teacher-class-workspace-title-block .teacher-page-title {
+  margin-top: 0.05rem;
+}
+
+.page-header-right .teacher-primary-btn,
+.page-header-right .teacher-my-classes-secondary-btn {
+  min-height: 44px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.page-header-right .teacher-primary-btn {
+  padding: 0 1.1rem;
+}
+
+.page-header-right .teacher-my-classes-secondary-btn {
+  padding: 0 1.1rem;
+}
+
+.page-header-right .teacher-primary-btn svg,
+.page-header-right .teacher-my-classes-secondary-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.teacher-class-context-strip {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(11rem, 1.45fr) repeat(
+      3,
+      minmax(7rem, 0.8fr)
+    ) minmax(16rem, 2fr);
+  gap: 0;
+  align-items: stretch;
+  margin: 0 0 0.85rem;
+  padding: 0.85rem clamp(1.15rem, 1.7vw, 1.45rem);
+  border: 1px solid #e1eaf2;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 8px 22px rgba(15, 46, 77, 0.04);
+}
+
+.teacher-class-context-item {
+  min-width: 0;
+  padding: 0 0.8rem;
+  border-left: 1px solid #edf2f7;
+}
+
+.teacher-class-context-item:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.teacher-class-context-label {
+  display: block;
+  margin-bottom: 0.28rem;
+  color: #8295a6;
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.teacher-class-context-item strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--sti-navy);
+  font-size: 0.83rem;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.teacher-class-context-item small {
+  display: block;
+  margin-top: 0.2rem;
+  color: #8295a6;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.teacher-class-context-schedules {
+  min-width: 0;
+}
+
+.teacher-class-schedule-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.teacher-class-schedule-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 100%;
+  padding: 0.32rem 0.55rem;
+  border: 1px solid #d6e2ee;
+  border-radius: 8px;
+  background: #f8fbfe;
+  color: #526b84;
+  font-size: 0.69rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.teacher-class-schedule-chip svg {
+  flex: 0 0 auto;
+  width: 13px;
+  height: 13px;
+  color: var(--sti-blue);
+}
+
+.teacher-class-schedule-chip.is-muted {
+  color: #94a3b8;
+}
+
+.teacher-class-list-guidance {
+  gap: 0.65rem;
+  margin: 0 0 1rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  background: #f8fbff;
+}
+
+.teacher-class-list-guidance .teacher-info-text {
+  color: #526b84;
+  font-size: 0.74rem;
+  line-height: 1.35;
+}
+
+.teacher-class-list-guidance svg,
+.teacher-class-list-guidance i {
+  width: 16px;
+  height: 16px;
+}
+
+.teacher-class-list-panel {
+  box-sizing: border-box;
+  display: flex;
+  min-width: 0;
+  width: 100%;
+  flex-direction: column;
+  padding: 1.2rem clamp(1.25rem, 1.9vw, 1.75rem) 1.1rem;
+}
+
+.teacher-class-list-panel .teacher-panel-header {
+  flex: 0 0 auto;
+  margin-bottom: 0.75rem;
+}
+
+.teacher-class-list-panel .teacher-panel-subtitle {
+  color: #8295a6;
+  font-size: 0.7rem;
+}
+
+.teacher-class-list-panel .teacher-toolbar {
+  flex: 0 0 auto;
+  margin-bottom: 0.75rem;
+}
+
+.teacher-class-list-panel .teacher-search {
+  width: min(360px, 100%);
+}
+
+.teacher-class-list-panel .teacher-search input {
+  height: 42px;
+  font-size: 0.78rem;
+}
+
+.teacher-class-list-panel .teacher-table-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  flex: 0 1 auto;
+  overflow-x: auto;
+  overflow-y: visible;
+  border: 1px solid #e1eaf2;
+  border-radius: 14px;
+}
+
+.teacher-class-list-pagination {
+  margin-top: 0.85rem;
+  padding: 0 0.15rem;
+}
+
+.teacher-class-list-pagination .teacher-page-link {
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.teacher-class-list-pagination .teacher-page-link:disabled {
+  cursor: default;
+}
+
+.teacher-class-list-panel .teacher-table {
+  min-width: 760px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.teacher-class-list-panel .teacher-table thead th {
+  padding: 0.72rem 0.9rem;
+  background: #f8fbfe;
+  color: #71869b;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.teacher-class-list-panel .teacher-table tbody td {
+  padding: 0.78rem 0.9rem;
+  color: #526b84;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  vertical-align: middle;
+}
+
+.teacher-class-list-panel .teacher-table tbody td:first-child {
+  min-width: 15rem;
+}
+
+.teacher-class-list-panel .teacher-table tbody td:first-child strong {
+  display: block;
+  color: var(--sti-navy);
+  font-size: 0.84rem;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.teacher-roster-student-number {
+  display: block;
+  margin-top: 0.2rem;
+  color: #8295a6;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.teacher-class-list-panel .teacher-table tbody td:nth-child(2) {
+  max-width: 20rem;
+  color: #71869b;
+  font-size: 0.74rem;
+}
+
+.teacher-class-list-panel .teacher-table th:nth-child(3),
+.teacher-class-list-panel .teacher-table td:nth-child(3) {
+  text-align: center;
+}
+
+.teacher-class-list-panel .teacher-table tbody td:nth-child(4) {
+  color: #8295a6;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.teacher-class-list-panel .teacher-table th:nth-child(4),
+.teacher-class-list-panel .teacher-table td:nth-child(4) {
+  text-align: center;
+}
+
+.teacher-class-list-panel .teacher-badge {
+  min-height: 25px;
+  padding: 0 0.65rem;
+  font-size: 0.63rem;
+  font-weight: 750;
+}
+
+@media (max-width: 992px) {
+  .teacher-class-context-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 0.85rem;
+  }
+
+  .teacher-class-context-schedules {
+    grid-column: 1 / -1;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .teacher-class-list-panel {
+    padding-bottom: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header-right {
+    width: 100%;
+  }
+
+  .page-header-right .teacher-primary-btn,
+  .page-header-right .teacher-my-classes-secondary-btn {
+    flex: 1 1 12rem;
+  }
+
+  .teacher-class-context-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0.9rem;
+  }
+
+  .teacher-class-context-item,
+  .teacher-class-context-item:first-child {
+    padding: 0.25rem 0.75rem;
+    border-left: 0;
+  }
+
+  .teacher-class-context-schedules {
+    grid-column: 1 / -1;
+    padding-left: 0;
+  }
+
+  .teacher-class-list-panel {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .teacher-class-context-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .teacher-class-list-pagination {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .page-header-right .teacher-primary-btn,
+  .page-header-right .teacher-my-classes-secondary-btn {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  .teacher-class-list-panel .teacher-search {
+    width: 100%;
+  }
+}
+
+/* Source-aware Class List import stages. */
+.teacher-import-step-heading {
+  margin: 0 0 1.1rem;
+}
+.teacher-import-step-heading h3 {
+  margin: 0.22rem 0 0.35rem;
+  color: var(--sti-navy);
+  font-size: 1.08rem;
+}
+.teacher-import-step-heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.teacher-import-step-kicker {
+  color: var(--sti-blue);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.teacher-import-modal-feedback {
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #d8e6f3;
+  border-radius: 10px;
+  background: #f6fbff;
+  color: #39536d;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+.teacher-import-modal-feedback-success {
+  border-color: #cdebdc;
+  background: #f2fcf6;
+  color: #246b45;
+}
+.teacher-import-modal-feedback-error {
+  border-color: #f2cdcd;
+  background: #fff7f7;
+  color: #9d3030;
+}
+.teacher-class-list-source-card {
+  margin: 0 0 0.8rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid #e1eaf2;
+  border-radius: 12px;
+  background: #fbfdff;
+}
+.teacher-class-list-source-card dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 0;
+}
+.teacher-class-list-source-card dl div {
+  min-width: 0;
+}
+.teacher-class-list-source-card dt,
+.teacher-class-list-source-card h4,
+.teacher-class-list-source-preview h4 {
+  margin: 0 0 0.22rem;
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.teacher-class-list-source-card dd {
+  overflow: hidden;
+  margin: 0;
+  color: #1e3b5a;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.teacher-class-list-source-card p,
+.teacher-class-list-source-preview p {
+  margin: 0;
+}
+.teacher-class-list-source-card p span,
+.teacher-class-list-column-list span {
+  display: inline-flex;
+  margin: 0.18rem 0.25rem 0.18rem 0;
+  padding: 0.3rem 0.48rem;
+  border: 1px solid #dce7f2;
+  border-radius: 999px;
+  background: #fff;
+  color: #405a75;
+  font-size: 0.7rem;
+}
+.teacher-class-list-source-preview {
+  margin-top: 1rem;
+}
+.teacher-class-list-source-preview h4 {
+  margin-top: 0.9rem;
+}
+.teacher-class-list-source-preview .teacher-table-wrapper {
+  max-height: 12rem;
+  margin-top: 0.55rem;
+  border: 1px solid #e4ebf2;
+  border-radius: 10px;
+}
+.teacher-class-list-source-preview .teacher-table {
+  min-width: 40rem;
+}
+.teacher-class-list-source-preview .teacher-table th,
+.teacher-class-list-source-preview .teacher-table td {
+  padding: 0.55rem 0.65rem;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+.teacher-class-list-mapping-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem 1rem;
+}
+.teacher-class-list-mapping-grid .teacher-import-form-field {
+  padding: 0.8rem;
+  border: 1px solid #e3ebf3;
+  border-radius: 11px;
+  background: #fff;
+}
+.teacher-class-list-mapping-grid .teacher-import-form-field.is-required {
+  border-left: 3px solid var(--sti-blue);
+}
+.teacher-class-list-mapping-grid label {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.teacher-class-list-mapping-grid label span {
+  font-size: 0.67rem;
+  font-weight: 800;
+}
+.teacher-class-list-mapping-grid .is-required label span {
+  color: #07589a;
+}
+.teacher-class-list-mapping-grid .is-optional label span {
+  color: #8494a7;
+}
+.teacher-class-list-mapping-grid select {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid #cfdae5;
+  border-radius: 8px;
+  background: #fff;
+  color: #314b66;
+  font: inherit;
+  font-size: 0.78rem;
+}
+.teacher-class-list-review-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 0.65rem;
+}
+.teacher-class-list-review-counts span {
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  background: #eef4fb;
+  color: #31506e;
+  font-size: 0.73rem;
+}
+.teacher-class-list-review-counts .is-valid {
+  background: #edf9f1;
+  color: #257346;
+}
+.teacher-class-list-review-counts .is-invalid {
+  background: #fff2f2;
+  color: #a03b3b;
+}
+[data-class-list-mapping-errors]:not(:empty),
+[data-class-list-review-validation]:not(:empty) {
+  margin: 0 0 0.9rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #f1d0d0;
+  border-radius: 10px;
+  background: #fff8f8;
+  color: #983737;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+/* Keep repeated validation feedback readable without allowing it to displace
+   the roster preview from the modal. Content remains fully available here. */
+[data-class-list-mapping-errors]:not(:empty),
+[data-class-list-review-validation]:not(:empty) {
+  max-height: 7.5rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+@media (max-width: 620px) {
+  .teacher-class-list-source-card dl,
+  .teacher-class-list-mapping-grid {
+    grid-template-columns: 1fr;
+  }
+  .teacher-class-list-source-preview .teacher-table {
+    min-width: 32rem;
+  }
+}
+
+.teacher-class-list-structure-controls {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+.teacher-class-list-structure-controls label {
+  display: grid;
+  gap: 0.35rem;
+  color: #435b75;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+.teacher-class-list-structure-controls select,
+.teacher-class-list-structure-controls input {
+  min-height: 38px;
+  border: 1px solid #cfdae5;
+  border-radius: 8px;
+  padding: 0 0.65rem;
+  background: #fff;
+  color: #314b66;
+  font: inherit;
+  font-size: 0.78rem;
+}
+@media (max-width: 620px) {
+  .teacher-class-list-structure-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Existing temporary shared controls retained until centralized in teacher.css. */
+.page-header-right .teacher-my-classes-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  background: #fff;
+  color: #07589a;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.page-header-right .teacher-my-classes-secondary-btn:hover {
+  border-color: #c7d6e5;
+  background: #f5f9fd;
+  color: #064d87;
+}
+.page-header-right .teacher-my-classes-secondary-btn svg {
+  width: 1rem;
+  height: 1rem;
+  stroke-width: 2;
+}
+.teacher-import-modal-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 1px solid #e0e7ef;
+  border-radius: 9px;
+  background: #fff;
+  color: #718096;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.teacher-import-modal-close:hover {
+  border-color: #c7d6e5;
+  background: #f5f9fd;
+  color: #07589a;
+}
+.teacher-import-modal-close svg {
+  width: 18px;
+  height: 18px;
+}
+.teacher-import-review-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0 0 1.15rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid #dce8f2;
+  border-radius: 9px;
+  background: #f7fbfe;
+  color: #526273;
+}
+.teacher-import-review-note svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: #07589a;
+}
+.teacher-import-review-note p {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.teacher-import-form-cancel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 1.1rem;
+  border: 1px solid #d9e2ec;
+  border-radius: 9px;
+  background: #fff;
+  color: #526273;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.teacher-import-form-cancel:hover {
+  border-color: #c7d6e5;
+  background: #f7f9fb;
+  color: #334155;
+}
+
+/* ==========================================================
+   IMPORT MODAL SCROLL CONTAINMENT
+   Keep the header visible and the active step/actions reachable.
+   ========================================================== */
+
+.teacher-import-modal-dialog {
+  display: flex;
+  flex-direction: column;
+}
+
+.teacher-import-modal-header {
+  flex: 0 0 auto;
+}
+
+.teacher-import-modal-body {
+  min-height: 0;
+  flex: 1 1 auto;
+
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.teacher-import-modal-body .teacher-import-form-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+
+  margin-bottom: 0;
+
+  background: #ffffff;
+  box-shadow: 0 -10px 14px -16px rgba(15, 23, 42, 0.45);
+}
+
+/* ==========================================================
+   REVIEW + RESOLUTION TABLE CONTAINMENT
+   Scoped to the two runtime step wrappers so Source Preview retains its
+   existing compact spreadsheet treatment.
+   ========================================================== */
+
+[data-class-list-import-review-step] [data-class-list-review-table] {
+  max-width: 100%;
+  max-height: min(19rem, 42vh);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  border: 1px solid #e4ebf2;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+/* Resolution rows remain in the modal body's single vertical scroll region.
+   This wrapper retains horizontal scrolling only when its wide table needs it. */
+[data-class-list-import-resolution-step] [data-class-list-resolution-table] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  overscroll-behavior-x: contain;
+  scrollbar-gutter: stable;
+  border: 1px solid #e4ebf2;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+[data-class-list-import-plan-step] [data-class-list-import-plan-table] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  overscroll-behavior-x: contain;
+  scrollbar-gutter: stable;
+  border: 1px solid #e4ebf2;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+[data-class-list-import-review-step] .teacher-table,
+[data-class-list-import-resolution-step] .teacher-table,
+[data-class-list-import-plan-step] .teacher-table {
+  min-width: 46rem;
+}
+
+[data-class-list-import-review-step] .teacher-table th,
+[data-class-list-import-resolution-step] .teacher-table th,
+[data-class-list-import-plan-step] .teacher-table th {
+  padding: 0.62rem 0.72rem;
+  background: #f8fafc;
+  color: #8193aa;
+  font-size: 0.66rem;
+  letter-spacing: 0.055em;
+  white-space: nowrap;
+}
+
+[data-class-list-import-review-step] .teacher-table td,
+[data-class-list-import-resolution-step] .teacher-table td,
+[data-class-list-import-plan-step] .teacher-table td {
+  padding: 0.68rem 0.72rem;
+  color: #334e68;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+  vertical-align: top;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* The Resolution Preview has eight meaningful columns. Preserve readable
+   columns and use the wrapper's horizontal scrollbar instead of compressing
+   the content or widening the modal. */
+[data-class-list-import-resolution-step] .teacher-table {
+  width: max-content;
+  min-width: 70rem;
+  table-layout: auto;
+}
+
+[data-class-list-import-plan-step] .teacher-table {
+  width: max-content;
+  min-width: 67rem;
+  table-layout: auto;
+}
+
+[data-class-list-import-plan-step] .teacher-table th:nth-child(1),
+[data-class-list-import-plan-step] .teacher-table td:nth-child(1) {
+  min-width: 6rem;
+}
+
+[data-class-list-import-plan-step] .teacher-table th:nth-child(2),
+[data-class-list-import-plan-step] .teacher-table td:nth-child(2) {
+  min-width: 9rem;
+}
+
+[data-class-list-import-plan-step] .teacher-table th:nth-child(3),
+[data-class-list-import-plan-step] .teacher-table td:nth-child(3) {
+  min-width: 12rem;
+}
+
+[data-class-list-import-plan-step] .teacher-table th:nth-child(4),
+[data-class-list-import-plan-step] .teacher-table td:nth-child(4),
+[data-class-list-import-plan-step] .teacher-table th:nth-child(5),
+[data-class-list-import-plan-step] .teacher-table td:nth-child(5) {
+  min-width: 14rem;
+}
+
+[data-class-list-import-plan-step] .teacher-table th:nth-child(6),
+[data-class-list-import-plan-step] .teacher-table td:nth-child(6) {
+  min-width: 9rem;
+}
+
+[data-class-list-import-plan-step] .teacher-table th:nth-child(7),
+[data-class-list-import-plan-step] .teacher-table td:nth-child(7) {
+  width: 13.5rem;
+  min-width: 13.5rem;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+[data-class-list-import-plan-step] .teacher-import-plan-why {
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.teacher-class-list-context-decision {
+  margin-top: 0.6rem;
+  padding: 0.7rem;
+  min-width: 34rem;
+  border: 1px solid #d8e4f0;
+  border-radius: 0.65rem;
+  background: #f8fbfe;
+  color: #344e68;
+}
+
+.teacher-class-list-context-decision > strong {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: #1f4c73;
+  font-size: 0.73rem;
+}
+
+.teacher-class-list-context-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(9rem, 1fr));
+  gap: 0.48rem;
+}
+
+.teacher-class-list-context-grid label {
+  display: grid;
+  gap: 0.24rem;
+  color: #5d738a;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.teacher-class-list-context-grid input,
+.teacher-class-list-context-grid select {
+  min-width: 0;
+  min-height: 2rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid #cbd9e7;
+  border-radius: 0.42rem;
+  background: #fff;
+  color: #243b53;
+  font-size: 0.72rem;
+}
+
+.teacher-class-list-context-decision small {
+  display: block;
+  margin-top: 0.5rem;
+  color: #6a7f93;
+  font-size: 0.67rem;
+  line-height: 1.35;
+}
+
+.teacher-class-list-reconciliation-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin-top: 0.55rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #d8e4f0;
+  border-radius: 0.55rem;
+  background: #fff;
+  color: #243b53;
+  cursor: pointer;
+}
+
+.teacher-class-list-reconciliation-option input {
+  flex: 0 0 auto;
+  margin-top: 0.15rem;
+}
+
+.teacher-class-list-reconciliation-option span {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.teacher-class-list-reconciliation-option small {
+  color: #6a7f93;
+  font-size: 0.7rem;
+}
+
+@media (max-width: 760px) {
+  .teacher-class-list-context-grid {
+    grid-template-columns: repeat(2, minmax(8rem, 1fr));
+  }
+}
+
+[data-class-list-import-resolution-step] .teacher-table th:nth-child(1),
+[data-class-list-import-resolution-step] .teacher-table td:nth-child(1) {
+  min-width: 5.5rem;
+}
+
+[data-class-list-import-resolution-step] .teacher-table th:nth-child(2),
+[data-class-list-import-resolution-step] .teacher-table td:nth-child(2) {
+  min-width: 8rem;
+}
+
+[data-class-list-import-resolution-step] .teacher-table th:nth-child(3),
+[data-class-list-import-resolution-step] .teacher-table td:nth-child(3) {
+  min-width: 10.5rem;
+}
+
+[data-class-list-import-resolution-step] .teacher-table th:nth-child(n + 4),
+[data-class-list-import-resolution-step] .teacher-table td:nth-child(n + 4) {
+  min-width: 10rem;
+}
+
+@media (max-width: 768px) {
+  .teacher-import-modal-body {
+    padding-bottom: 1rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .teacher-import-modal-body .teacher-import-form-actions {
+    gap: 0.6rem;
+  }
+}
+
+/* ==========================================================================
+   IMPORT CLASS LIST — FOCUSED MODAL WORKSPACE
+   ========================================================================== */
+
+.teacher-import-modal-dialog {
+  width: min(60rem, calc(100vw - 3rem));
+  height: auto;
+  min-height: 0;
+  max-height: calc(100vh - 3rem);
+  border-radius: 20px;
+}
+
+.teacher-import-modal-header {
+  align-items: center;
+  padding: 1.2rem 1.5rem 1rem;
+}
+
+.teacher-import-modal-title {
+  margin-bottom: 0.25rem;
+  font-size: 1.18rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.teacher-import-modal-description {
+  max-width: 42rem;
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.teacher-import-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.5rem;
+  border-bottom: 1px solid #e7edf3;
+  background: #fbfdff;
+}
+
+.teacher-import-stepper span {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 0.75rem;
+  border: 1px solid #dce7f1;
+  border-radius: 999px;
+  color: #8a9bad;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.teacher-import-stepper span[data-progress-state="active"] {
+  border-color: #9fc8e7;
+  background: #eef7ff;
+  color: #07589a;
+}
+
+.teacher-import-stepper span[data-progress-state="complete"] {
+  border-color: #c8ead8;
+  background: #f2fcf6;
+  color: #278254;
+}
+
+.teacher-import-stepper span[data-progress-state="future"] {
+  border-color: #dce7f1;
+  background: #ffffff;
+  color: #8a9bad;
+}
+
+.teacher-import-modal-body {
+  padding: 0.95rem 1.5rem 1rem;
+  min-height: 0;
+}
+
+.teacher-import-modal-body > form {
+  min-height: 0;
+}
+
+.teacher-import-step-heading {
+  margin-bottom: 0.7rem;
+}
+
+.teacher-import-step-heading h3 {
+  margin-top: 0.25rem;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.teacher-import-step-heading p {
+  max-width: 52rem;
+  color: #647b91;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.teacher-import-review-note {
+  align-items: center;
+  margin-bottom: 0.7rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+}
+
+.teacher-import-review-note p {
+  font-size: 0.71rem;
+  line-height: 1.4;
+}
+
+.teacher-import-modal-feedback {
+  margin-bottom: 0.8rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.73rem;
+  position: relative;
+  padding-left: 2.15rem;
+}
+
+.teacher-import-modal-feedback::before {
+  position: absolute;
+  top: 0.72rem;
+  left: 0.75rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  content: "!";
+  font-size: 0.58rem;
+  font-weight: 800;
+  line-height: 0.65rem;
+  text-align: center;
+}
+
+.teacher-import-modal-feedback-success::before {
+  content: "✓";
+}
+
+.teacher-import-modal-feedback-info::before {
+  content: "i";
+}
+
+.teacher-import-plan-action-note {
+  margin: 0.75rem 0 0;
+  color: #647b91;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.teacher-import-plan-action-note.is-blocked {
+  color: #9a4b4b;
+}
+
+.teacher-import-form-actions > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.teacher-class-list-source-card {
+  margin-bottom: 0.55rem;
+  padding: 0.65rem 0.8rem;
+}
+
+.teacher-class-list-source-card dd {
+  font-size: 0.76rem;
+}
+
+.teacher-class-list-source-card p span,
+.teacher-class-list-column-list span {
+  font-size: 0.67rem;
+}
+
+.teacher-class-list-source-preview {
+  margin-top: 0.65rem;
+}
+
+.teacher-class-list-source-preview .teacher-table-wrapper {
+  max-height: 11.5rem;
+}
+
+.teacher-class-list-source-preview .teacher-table {
+  min-width: 38rem;
+}
+
+.teacher-class-list-mapping-grid {
+  gap: 0.7rem 0.8rem;
+}
+
+.teacher-class-list-mapping-grid .teacher-import-form-field {
+  padding: 0.7rem;
+}
+
+.teacher-class-list-mapping-grid select,
+.teacher-class-list-structure-controls select,
+.teacher-class-list-structure-controls input,
+.teacher-import-modal-body input:not([type="hidden"]),
+.teacher-import-modal-body textarea {
+  min-height: 38px;
+  border-radius: 8px;
+  font-size: 0.76rem;
+}
+
+.teacher-import-form-actions {
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  padding-top: 0.7rem;
+}
+
+.teacher-import-form-actions > button {
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 0 1.2rem;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.73rem;
+  font-weight: 750;
+  line-height: 1;
+}
+
+.teacher-import-form-actions > .teacher-primary-btn {
+  min-height: 48px;
+  padding: 0 1.3rem;
+}
+
+.teacher-import-form-actions > .teacher-primary-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.teacher-import-modal-body .teacher-table-wrapper {
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+
+[data-class-list-import-review-step] [data-class-list-review-table],
+[data-class-list-import-resolution-step] [data-class-list-resolution-table],
+[data-class-list-import-plan-step] [data-class-list-import-plan-table],
+[data-class-list-import-confirm-step] [data-class-list-confirm-table] {
+  max-height: 14rem;
+  overflow: auto;
+  border-radius: 10px;
+}
+
+[data-class-list-import-review-step] .teacher-table,
+[data-class-list-import-resolution-step] .teacher-table,
+[data-class-list-import-plan-step] .teacher-table,
+[data-class-list-import-confirm-step] .teacher-table {
+  min-width: 42rem;
+}
+
+[data-class-list-review-summary] > p,
+[data-class-list-review-validation] > p,
+[data-class-list-resolution-validation] > p,
+[data-class-list-import-plan-validation] > p,
+[data-class-list-import-plan-summary] > p,
+[data-class-list-confirm-summary] > p {
+  margin: 0 0 0.75rem;
+  color: #526b84;
+  font-size: 0.71rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+@media (max-width: 768px) {
+  .teacher-import-modal-dialog {
+    width: calc(100vw - 1.5rem);
+    height: auto;
+    min-height: 0;
+    max-height: calc(100vh - 1.5rem);
+    border-radius: 16px;
+  }
+
+  .teacher-import-stepper {
+    gap: 0.25rem;
+    overflow-x: auto;
+    padding: 0.6rem 1rem;
+  }
+
+  .teacher-import-stepper span {
+    flex: 0 0 auto;
+    padding: 0 0.6rem;
+  }
+
+  .teacher-import-modal-body {
+    padding: 1rem;
+  }
+
+  .teacher-import-form-actions {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .teacher-import-modal-header {
+    padding: 1rem;
+  }
+
+  .teacher-import-modal-body {
+    padding: 0.9rem;
+  }
+
+  .teacher-import-form-actions > button,
+  .teacher-import-form-actions > .teacher-primary-btn {
+    width: 100%;
+  }
+}
