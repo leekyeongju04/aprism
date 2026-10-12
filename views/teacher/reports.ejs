@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/sidebar') %>
+  <main class="main-content <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'expanded' : '' %>">
+    <%- include('../partials/top-navbar') %>
+
+    <section class="page-header d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="page-title mb-1">Class Attendance & Academic Reports</h1>
+        <p class="text-muted mb-0" style="font-size: 14px;">Generate attendance verification sheets, class performance metrics, and export data.</p>
+      </div>
+      <div>
+        <button class="btn btn-outline-primary btn-sm" onclick="window.print();">
+          <i data-lucide="printer" class="w-4 h-4 me-1"></i> Print Roster Sheet
+        </button>
+      </div>
+    </section>
+
+    <%- include('../partials/flash-alert') %>
+
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0">Class Roster Summary: IT405 - BSIT-401</h5>
+        <span class="badge bg-primary">A.Y. <%= currentSchoolYear %></span>
+      </div>
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>#</th>
+                <th>Student Number</th>
+                <th>Student Name</th>
+                <th>AprilTag</th>
+                <th>Attendance %</th>
+                <th>Prelim Grade</th>
+                <th>Standing</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% students.forEach((s, idx) => { %>
+                <tr>
+                  <td><%= idx + 1 %></td>
+                  <td class="font-monospace"><%= s.studentNumber %></td>
+                  <td class="fw-bold"><%= s.lastName %>, <%= s.firstName %></td>
+                  <td>Tag #<%= s.aprilTagId %></td>
+                  <td><%= s.attendanceRate %>%</td>
+                  <td><%= s.prelimGrade %></td>
+                  <td>
+                    <span class="badge <%= s.attendanceRate >= 80 ? 'bg-success' : 'bg-warning text-dark' %>">
+                      <%= s.status %>
+                    </span>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <%- include('../partials/logout-modal') %>
+  <%- include('../partials/footer') %>
+</body>
+</html>

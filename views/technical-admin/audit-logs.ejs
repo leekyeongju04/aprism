@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/sidebar') %>
+  <main class="main-content <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'expanded' : '' %>">
+    <%- include('../partials/top-navbar') %>
+
+    <section class="page-header d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="page-title mb-1">System Audit Logs</h1>
+        <p class="text-muted mb-0" style="font-size: 14px;">Immutable security audit trail and access activity logs for APRISM.</p>
+      </div>
+      <div>
+        <button class="btn btn-outline-secondary btn-sm" onclick="location.reload();">
+          <i data-lucide="refresh-cw" class="w-4 h-4 me-1"></i> Refresh
+        </button>
+      </div>
+    </section>
+
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Timestamp</th>
+                <th>User / Personnel</th>
+                <th>Role</th>
+                <th>Action Category</th>
+                <th>Activity Description</th>
+                <th>IP Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% auditLogs.forEach(log => { %>
+                <tr>
+                  <td class="font-monospace text-muted text-nowrap" style="font-size: 13px;"><%= log.createdAt %></td>
+                  <td class="fw-semibold"><%= log.userName %></td>
+                  <td>
+                    <span class="badge bg-secondary" style="font-size: 11px;"><%= log.roleName %></span>
+                  </td>
+                  <td>
+                    <span class="badge bg-info text-dark" style="font-size: 11px;"><%= log.action %></span>
+                  </td>
+                  <td style="font-size: 13px;"><%= log.description %></td>
+                  <td class="font-monospace text-secondary" style="font-size: 12px;"><%= log.ip %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <%- include('../partials/logout-modal') %>
+  <%- include('../partials/footer') %>
+</body>
+</html>

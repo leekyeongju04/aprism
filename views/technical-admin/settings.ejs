@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/sidebar') %>
+  <main class="main-content <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'expanded' : '' %>">
+    <%- include('../partials/top-navbar') %>
+
+    <section class="page-header d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="page-title mb-1">System Configuration & Security</h1>
+        <p class="text-muted mb-0" style="font-size: 14px;">Configure security timeouts, password policies, session lifetimes, and system maintenance.</p>
+      </div>
+    </section>
+
+    <%- include('../partials/flash-alert') %>
+
+    <div class="row g-4">
+      <div class="col-12 col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+            <h5 class="fw-bold mb-1">Session & Authentication Security</h5>
+            <p class="text-muted small">Control session timeouts and login attempt locks.</p>
+          </div>
+          <div class="card-body p-4">
+            <form action="/actions/system/update_security_settings" method="POST">
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Session Idle Timeout (Minutes)</label>
+                <input type="number" name="session_timeout" class="form-control" value="<%= systemSettings.sessionTimeoutMinutes %>" min="15" max="240">
+                <div class="form-text">Inactive user sessions terminate automatically after this threshold.</div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Max Failed Login Attempts</label>
+                <input type="number" name="max_failed_logins" class="form-control" value="<%= systemSettings.maxFailedLogins %>" min="3" max="10">
+                <div class="form-text">Account locked temporarily after consecutive invalid credential attempts.</div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Lockout Duration (Minutes)</label>
+                <input type="number" name="lockout_duration" class="form-control" value="<%= systemSettings.lockoutDurationMinutes %>" min="5" max="60">
+              </div>
+              <button type="submit" class="btn btn-primary">Save Security Policy</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+            <h5 class="fw-bold mb-1">Campus System Profile</h5>
+            <p class="text-muted small">Campus metadata and institutional configuration.</p>
+          </div>
+          <div class="card-body p-4">
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-muted">Institution</label>
+              <input type="text" class="form-control bg-light" value="STI College Dasmariñas" readonly>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-muted">System Identifier</label>
+              <input type="text" class="form-control bg-light" value="APRISM - AprilTag Student Monitoring & Intervention" readonly>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-muted">Authoritative School Domain</label>
+              <input type="text" class="form-control bg-light" value="@dasmarinas.sti.edu.ph" readonly>
+            </div>
+            <div class="alert alert-info py-2 px-3 small d-flex align-items-center gap-2 mb-0">
+              <i data-lucide="info" class="w-4 h-4 flex-shrink-0"></i>
+              <span>Single-campus deployment mode active for STI College Dasmariñas.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <%- include('../partials/logout-modal') %>
+  <%- include('../partials/footer') %>
+</body>
+</html>

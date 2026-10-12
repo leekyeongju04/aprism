@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/sidebar') %>
+  <main class="main-content <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'expanded' : '' %>">
+    <%- include('../partials/top-navbar') %>
+
+    <section class="page-header d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="page-title mb-1">AprilTag Attendance Session</h1>
+        <p class="text-muted mb-0" style="font-size: 14px;">Real-time AprilTag marker detection and manual roll call verification for <%= activeSession.subjectCode %> - <%= activeSession.section %>.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <form action="/actions/teacher/close_attendance_session" method="POST" class="d-inline">
+          <input type="hidden" name="class_id" value="<%= activeSession.classId %>">
+          <button type="submit" class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1">
+            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+            <span>Close & Finalize Session</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <%- include('../partials/flash-alert') %>
+
+    <!-- Live Scanner Simulation & Metrics Bar -->
+    <div class="row g-4 mb-4">
+      <!-- Scanner Simulation Box -->
+      <div class="col-12 col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">
+              <i data-lucide="camera" class="w-5 h-5 text-primary"></i>
+              <span>AprilTag Visual Detector</span>
+            </h5>
+            <span class="badge bg-success bg-opacity-10 text-success border border-success d-flex align-items-center gap-1">
+              <span class="spinner-grow spinner-grow-sm text-success" style="width: 8px; height: 8px;"></span>
+              <span>Session Active</span>
+            </span>
+          </div>
+
+          <!-- AprilTag Marker Preview & Simulator Controls -->
+          <div class="p-4 bg-dark text-white rounded-4 text-center mb-3 position-relative overflow-hidden" style="min-height: 200px; background: linear-gradient(135deg, #0f172a, #1e293b);">
+            <div class="d-flex flex-column align-items-center justify-content-center h-100 py-3">
+              <div class="p-2 bg-white rounded-3 mb-2 shadow" style="display: inline-block;">
+                <!-- AprilTag 36h11 SVG Representation -->
+                <svg width="80" height="80" viewBox="0 0 10 10" style="image-rendering: pixelated; shape-rendering: crispEdges;">
+                  <rect width="10" height="10" fill="#000" />
+                  <rect x="2" y="2" width="6" height="6" fill="#fff" />
+                  <rect x="3" y="3" width="1" height="1" fill="#000" />
+                  <rect x="5" y="3" width="2" height="1" fill="#000" />
+                  <rect x="3" y="5" width="2" height="2" fill="#000" />
+                  <rect x="6" y="6" width="1" height="1" fill="#000" />
+                </svg>
+              </div>
+              <div class="fw-bold fs-6">Optical AprilTag Reader (Tag Family 36h11)</div>
+              <small class="text-white-50">Point optical camera at student card or simulate tag scan below</small>
+            </div>
+          </div>
+
+          <!-- Quick Simulate Tag Scan Buttons -->
+          <div>
+            <div class="small fw-bold text-muted text-uppercase mb-2">Simulate AprilTag Scan for Student:</div>
+            <div class="d-flex flex-wrap gap-2">
+              <% students.forEach(s => { 
+                const rec = activeSession.records[s.id];
+                const isPres = rec && rec.status === 'Present';
+              %>
+                <form action="/actions/teacher/record_attendance_scan" method="POST" class="d-inline">
+                  <input type="hidden" name="student_id" value="<%= s.id %>">
+                  <input type="hidden" name="tag_id" value="<%= s.aprilTagId %>">
+                  <button type="submit" class="btn btn-sm <%= isPres ? 'btn-outline-success' : 'btn-outline-primary' %> d-flex align-items-center gap-1 font-monospace">
+                    <i data-lucide="<%= isPres ? 'check' : 'scan' %>" class="w-3 h-3"></i>
+                    <span>Tag #<%= s.aprilTagId %> (<%= s.lastName %>)</span>
+                  </button>
+                </form>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Session Counters -->
+      <div class="col-12 col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
+          <h5 class="fw-bold mb-3">Attendance Breakdown</h5>
+          <%
+            let presentCount = 0;
+            let lateCount = 0;
+            let absentCount = 0;
+            students.forEach(s => {
+              const st = activeSession.records[s.id]?.status || 'Absent';
+              if (st === 'Present') presentCount++;
+              else if (st === 'Late') lateCount++;
+              else absentCount++;
+            });
+            const rate = Math.round(((presentCount + lateCount) / students.length) * 100);
+          %>
+          <div class="row g-3 mb-4 text-center">
+            <div class="col-4">
+              <div class="p-3 bg-success bg-opacity-10 text-success rounded-3">
+                <div class="fs-3 fw-bold"><%= presentCount %></div>
+                <small class="fw-semibold">Present</small>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="p-3 bg-warning bg-opacity-10 text-warning rounded-3">
+                <div class="fs-3 fw-bold"><%= lateCount %></div>
+                <small class="fw-semibold">Late</small>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="p-3 bg-danger bg-opacity-10 text-danger rounded-3">
+                <div class="fs-3 fw-bold"><%= absentCount %></div>
+                <small class="fw-semibold">Absent</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 bg-light rounded-3">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="small fw-bold">Live Turnout Rate</span>
+              <span class="small fw-bold text-primary"><%= rate %>%</span>
+            </div>
+            <div class="progress" style="height: 8px;">
+              <div class="progress-bar bg-success" style="width: <%= rate %>%"></div>
+            </div>
+          </div>
+
+          <div class="mt-4 text-muted small">
+            <div><i data-lucide="info" class="w-4 h-4 inline-block text-primary"></i> <strong>Note:</strong> Attendance logged via AprilTags directly computes toward student intervention warning triggers.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Roster Table with Manual Override -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0">Live Student Roll Call</h5>
+        <span class="badge bg-secondary"><%= students.length %> Students</span>
+      </div>
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Student Number</th>
+                <th>Student Name</th>
+                <th>Assigned AprilTag</th>
+                <th>Scan Timestamp</th>
+                <th>Detection Method</th>
+                <th>Attendance Status</th>
+                <th class="text-end">Manual Toggle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% students.forEach(s => { 
+                const rec = activeSession.records[s.id] || { status: 'Absent', scanTime: null, method: 'Unscanned' };
+              %>
+                <tr>
+                  <td class="font-monospace text-secondary" style="font-size: 13px;"><%= s.studentNumber %></td>
+                  <td class="fw-bold"><%= s.lastName %>, <%= s.firstName %></td>
+                  <td>
+                    <span class="badge bg-dark font-monospace">Tag #<%= s.aprilTagId %></span>
+                  </td>
+                  <td class="small text-muted font-monospace"><%= rec.scanTime || '—' %></td>
+                  <td>
+                    <span class="badge bg-light text-dark border"><%= rec.method %></span>
+                  </td>
+                  <td>
+                    <% if (rec.status === 'Present') { %>
+                      <span class="badge bg-success">Present</span>
+                    <% } else if (rec.status === 'Late') { %>
+                      <span class="badge bg-warning text-dark">Late</span>
+                    <% } else if (rec.status === 'Excused') { %>
+                      <span class="badge bg-info text-dark">Excused</span>
+                    <% } else { %>
+                      <span class="badge bg-danger">Absent</span>
+                    <% } %>
+                  </td>
+                  <td class="text-end">
+                    <form action="/actions/teacher/mark_attendance_manual" method="POST" class="d-inline-flex gap-1">
+                      <input type="hidden" name="student_id" value="<%= s.id %>">
+                      <button type="submit" name="status" value="Present" class="btn btn-sm btn-outline-success py-0 px-2" title="Mark Present">P</button>
+                      <button type="submit" name="status" value="Late" class="btn btn-sm btn-outline-warning py-0 px-2" title="Mark Late">L</button>
+                      <button type="submit" name="status" value="Absent" class="btn btn-sm btn-outline-danger py-0 px-2" title="Mark Absent">A</button>
+                      <button type="submit" name="status" value="Excused" class="btn btn-sm btn-outline-secondary py-0 px-2" title="Mark Excused">E</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <%- include('../partials/logout-modal') %>
+  <%- include('../partials/footer') %>
+</body>
+</html>

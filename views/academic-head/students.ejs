@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/sidebar') %>
+  <main class="main-content <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'expanded' : '' %>">
+    <%- include('../partials/top-navbar') %>
+
+    <section class="page-header d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="page-title mb-1">Institutional Student Registry</h1>
+        <p class="text-muted mb-0" style="font-size: 14px;">Master student directory, AprilTag assignments, attendance indicators, and risk classifications.</p>
+      </div>
+      <div>
+        <div class="input-group">
+          <input type="text" class="form-control form-control-sm" placeholder="Search student number or name..." id="studentSearch">
+          <button class="btn btn-outline-secondary btn-sm" type="button"><i data-lucide="search" class="w-4 h-4"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <%- include('../partials/flash-alert') %>
+
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0" id="studentTable">
+            <thead class="table-light">
+              <tr>
+                <th>Student Number</th>
+                <th>Full Name</th>
+                <th>Section</th>
+                <th>AprilTag ID</th>
+                <th>Attendance Rate</th>
+                <th>Academic Standing</th>
+                <th>Monitoring Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% students.forEach(s => { %>
+                <tr>
+                  <td class="font-monospace fw-semibold text-secondary" style="font-size: 13px;"><%= s.studentNumber %></td>
+                  <td class="fw-bold"><%= s.lastName %>, <%= s.firstName %></td>
+                  <td><span class="badge bg-secondary">BSIT-401</span></td>
+                  <td>
+                    <span class="badge bg-dark font-monospace">Tag #<%= s.aprilTagId %></span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="progress flex-grow-1" style="width: 70px; height: 6px;">
+                        <div class="progress-bar <%= s.attendanceRate >= 80 ? 'bg-success' : (s.attendanceRate >= 70 ? 'bg-warning' : 'bg-danger') %>" style="width: <%= s.attendanceRate %>%"></div>
+                      </div>
+                      <span class="small fw-semibold"><%= s.attendanceRate %>%</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="fw-semibold <%= s.prelimGrade >= 75 ? 'text-success' : 'text-danger' %>"><%= s.prelimGrade %></span>
+                    <small class="text-muted">/ 100</small>
+                  </td>
+                  <td>
+                    <% if (s.status.includes('Critical')) { %>
+                      <span class="badge bg-danger"><%= s.status %></span>
+                    <% } else if (s.status.includes('At Risk') || s.status.includes('Warning')) { %>
+                      <span class="badge bg-warning text-dark"><%= s.status %></span>
+                    <% } else { %>
+                      <span class="badge bg-success bg-opacity-10 text-success border border-success"><%= s.status %></span>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <%- include('../partials/logout-modal') %>
+  <%- include('../partials/footer') %>
+
+  <script>
+    document.getElementById('studentSearch')?.addEventListener('input', function(e) {
+      const q = e.target.value.toLowerCase();
+      document.querySelectorAll('#studentTable tbody tr').forEach(tr => {
+        const text = tr.textContent.toLowerCase();
+        tr.style.display = text.includes(q) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>

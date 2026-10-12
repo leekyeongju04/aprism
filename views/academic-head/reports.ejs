@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/sidebar') %>
+  <main class="main-content <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'expanded' : '' %>">
+    <%- include('../partials/top-navbar') %>
+
+    <section class="page-header d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="page-title mb-1">Academic & Intervention Reports</h1>
+        <p class="text-muted mb-0" style="font-size: 14px;">Institutional attendance summaries, intervention referrals, and early warning reports.</p>
+      </div>
+      <div>
+        <button class="btn btn-outline-primary btn-sm" onclick="window.print();">
+          <i data-lucide="printer" class="w-4 h-4 me-1"></i> Print / Export Report
+        </button>
+      </div>
+    </section>
+
+    <div class="row g-4 mb-4">
+      <div class="col-12 col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
+          <div class="text-muted small fw-bold text-uppercase mb-1">Campus Attendance Rate</div>
+          <h2 class="display-6 fw-bold text-primary mb-1">86.3%</h2>
+          <small class="text-success"><i data-lucide="trending-up" class="w-4 h-4 inline-block"></i> +2.4% vs previous term</small>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
+          <div class="text-muted small fw-bold text-uppercase mb-1">Flagged At-Risk Students</div>
+          <h2 class="display-6 fw-bold text-warning mb-1"><%= students.filter(s => s.attendanceRate < 80).length %></h2>
+          <small class="text-muted">Attendance below <%= monitoringThresholds.attendanceThreshold %>%</small>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
+          <div class="text-muted small fw-bold text-uppercase mb-1">Active Guidance Referrals</div>
+          <h2 class="display-6 fw-bold text-danger mb-1"><%= referrals.length %></h2>
+          <small class="text-muted">Intervention cases under review</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Referral Cases Breakdown -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0">Active Intervention & Guidance Referrals</h5>
+      </div>
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Case #</th>
+                <th>Student</th>
+                <th>Section / Subject</th>
+                <th>Referring Faculty</th>
+                <th>Category</th>
+                <th>Priority</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% referrals.forEach(ref => { %>
+                <tr>
+                  <td class="font-monospace fw-bold">#REF-00<%= ref.id %></td>
+                  <td>
+                    <div class="fw-bold"><%= ref.studentName %></div>
+                    <small class="text-muted font-monospace"><%= ref.studentNumber %></small>
+                  </td>
+                  <td><%= ref.section %> • <%= ref.subject %></td>
+                  <td><%= ref.teacherName %></td>
+                  <td><span class="badge bg-light text-dark border"><%= ref.reason %></span></td>
+                  <td>
+                    <span class="badge <%= ref.urgency === 'High' ? 'bg-danger' : 'bg-warning text-dark' %>"><%= ref.urgency %></span>
+                  </td>
+                  <td>
+                    <span class="badge <%= ref.status === 'Pending' ? 'bg-warning text-dark' : 'bg-info text-dark' %>"><%= ref.status %></span>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <%- include('../partials/logout-modal') %>
+  <%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APRISM - Student Monitoring and Intervention Support System</title>
+  <meta name="description" content="An AprilTag-Based Student Monitoring and Intervention Support System for Academic Personnel at STI College Dasmariñas.">
+  <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/fonts/fonts.css">
+  <style>
+    :root {
+      --sti-navy: #002147;
+      --sti-blue: #005BAB;
+      --sti-yellow: #FFC72C;
+      --bg-slate-50: #f8fafc;
+      --border-slate-100: #f1f5f9;
+      --text-slate-400: #94a3b8;
+    }
+    body {
+      background-color: var(--bg-slate-50);
+      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+      background-size: 24px 24px;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      position: relative;
+    }
+    .login-card {
+      background-color: #ffffff;
+      border-radius: 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 33, 71, 0.12);
+      padding: 2.75rem 2.5rem;
+      border: 1px solid var(--border-slate-100);
+      width: 100%;
+      max-width: 460px;
+      position: relative;
+      z-index: 10;
+    }
+    .brand-logo-wrapper {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    .brand-logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+    }
+    .brand-logo-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .brand-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .brand-title {
+      font-family: Arial, sans-serif;
+      font-size: 2.75rem;
+      font-weight: 900;
+      color: var(--sti-navy);
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+      margin-bottom: 0.25rem;
+      line-height: 1.1;
+    }
+    .brand-subtitle-line {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--sti-blue);
+      letter-spacing: 0.2em;
+      margin: 0;
+    }
+    .brand-subtext {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 0.25rem;
+    }
+    .input-group-custom {
+      margin-bottom: 1.25rem;
+      position: relative;
+    }
+    .input-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+      display: block;
+      text-align: left;
+    }
+    .input-field {
+      width: 100%;
+      padding: 0.85rem 1rem 0.85rem 2.75rem;
+      background-color: var(--bg-slate-50);
+      border: 2px solid #e2e8f0;
+      border-radius: 0.75rem;
+      font-size: 0.9rem;
+      color: #1e293b;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .input-field:focus {
+      border-color: var(--sti-blue);
+      background-color: #fff;
+      box-shadow: 0 0 0 4px rgba(0, 91, 171, 0.1);
+    }
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 0.85rem;
+      background-color: var(--sti-navy);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 0.75rem;
+      letter-spacing: 0.05em;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .btn-submit:hover {
+      background-color: var(--sti-blue);
+    }
+    .demo-roles-panel {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px dashed #cbd5e1;
+    }
+    .demo-roles-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #64748b;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.65rem;
+      text-align: center;
+    }
+    .demo-btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .demo-btn {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 0.5rem 0.65rem;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #334155;
+      border-radius: 0.5rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .demo-btn:hover {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+      color: #0369a1;
+    }
+    .demo-btn small {
+      font-size: 9px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card">
+    <div class="brand-logo-wrapper">
+      <div class="brand-logo-container">
+        <img src="/assets/images/aprism-logo.png" alt="APRISM Logo" class="brand-logo-img">
+      </div>
+    </div>
+
+    <div class="brand-header">
+      <h1 class="brand-title">APRISM</h1>
+      <p class="brand-subtitle-line">STI College Dasmariñas</p>
+      <p class="brand-subtext">AprilTag Attendance & Intervention System</p>
+    </div>
+
+    <% if (typeof flashError !== 'undefined' && flashError) { %>
+      <div class="alert alert-danger py-2 px-3 mb-3 text-sm" role="alert" style="font-size: 12px; border-radius: 0.5rem;">
+        <%= flashError %>
+      </div>
+    <% } %>
+
+    <% if (typeof flashSuccess !== 'undefined' && flashSuccess) { %>
+      <div class="alert alert-success py-2 px-3 mb-3 text-sm" role="alert" style="font-size: 12px; border-radius: 0.5rem;">
+        <%= flashSuccess %>
+      </div>
+    <% } %>
+
+    <form action="/auth/authenticate" method="POST" id="loginForm">
+      <div class="input-group-custom">
+        <label class="input-label" for="username">Institutional Email <span class="text-danger">*</span></label>
+        <div class="position-relative">
+          <span class="input-icon">
+            <i data-lucide="mail" class="w-4 h-4"></i>
+          </span>
+          <input type="email" id="username" name="username" class="input-field" placeholder="username@dasmarinas.sti.edu.ph" required autocomplete="email">
+        </div>
+      </div>
+
+      <div class="input-group-custom">
+        <label class="input-label" for="password">Password <span class="text-danger">*</span></label>
+        <div class="position-relative">
+          <span class="input-icon">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+          </span>
+          <input type="password" id="password" name="password" class="input-field" placeholder="Enter your password" required autocomplete="current-password">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit mt-2">
+        <span>Sign In</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+    </form>
+
+    <div class="demo-roles-panel">
+      <div class="demo-roles-title">Instant Role Switcher (Development Preview)</div>
+      <div class="demo-btn-grid">
+        <button type="button" class="demo-btn" onclick="fillCreds('admin@dasmarinas.sti.edu.ph', 'password')">
+          <span>Technical Admin</span>
+          <small>admin@dasmarinas.sti.edu.ph</small>
+        </button>
+        <button type="button" class="demo-btn" onclick="fillCreds('acadhead@dasmarinas.sti.edu.ph', 'password')">
+          <span>Academic Head</span>
+          <small>acadhead@dasmarinas.sti.edu.ph</small>
+        </button>
+        <button type="button" class="demo-btn" onclick="fillCreds('teacher@dasmarinas.sti.edu.ph', 'password')">
+          <span>Teacher / Adviser</span>
+          <small>teacher@dasmarinas.sti.edu.ph</small>
+        </button>
+        <button type="button" class="demo-btn" onclick="fillCreds('discipline@dasmarinas.sti.edu.ph', 'password')">
+          <span>Disciplinary Officer</span>
+          <small>discipline@dasmarinas.sti.edu.ph</small>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/vendor/lucide/lucide.min.js"></script>
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+    function fillCreds(email, pwd) {
+      document.getElementById('username').value = email;
+      document.getElementById('password').value = pwd;
+      document.getElementById('loginForm').submit();
+    }
+  </script>
+</body>
+</html>

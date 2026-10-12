@@ -1,0 +1,77 @@
+<!-- Shared Sidebar -->
+<aside class="sidebar <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'collapsed' : '' %>" id="sidebar">
+    <!-- Fixed Sidebar Brand -->
+    <div class="sidebar-brand">
+        <img src="/assets/images/aprism-logo.png" alt="APRISM Logo" style="width: 44px; height: auto;">
+        <div class="brand-text">
+            <h2 class="brand-title">APRISM</h2>
+            <p class="brand-subtitle">STI Dasmariñas</p>
+        </div>
+    </div>
+
+    <!-- Scrollable Navigation Region -->
+    <div class="sidebar-navigation">
+        <nav>
+            <ul class="sidebar-menu">
+                <% (typeof sidebarItems !== 'undefined' ? sidebarItems : []).forEach(item => { %>
+                    <% if (item.type === 'section') { %>
+                        <li class="sidebar-section">
+                            <div class="sidebar-section-title">
+                                <span><%= item.label %></span>
+                            </div>
+                            <% if (item.items && item.items.length) { %>
+                                <ul class="sidebar-section-menu">
+                                    <% item.items.forEach(secItem => { 
+                                        const isAct = typeof activePage !== 'undefined' && activePage === secItem.id;
+                                        const isEn = secItem.enabled !== false;
+                                        let cls = 'sidebar-link' + (isAct ? ' active' : '') + (!isEn ? ' disabled' : '');
+                                    %>
+                                        <li>
+                                            <% if (isEn) { %>
+                                                <a href="<%= secItem.url %>" class="<%= cls %>">
+                                                    <i data-lucide="<%= secItem.icon %>" class="w-5 h-5"></i>
+                                                    <span><%= secItem.label %></span>
+                                                </a>
+                                            <% } else { %>
+                                                <a href="#" class="<%= cls %>" tabindex="-1" aria-disabled="true" title="Coming Soon">
+                                                    <i data-lucide="<%= secItem.icon %>" class="w-5 h-5"></i>
+                                                    <span><%= secItem.label %></span>
+                                                </a>
+                                            <% } %>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
+                        </li>
+                    <% } else { 
+                        const isAct = typeof activePage !== 'undefined' && activePage === item.id;
+                        const isEn = item.enabled !== false;
+                        let cls = 'sidebar-link' + (isAct ? ' active' : '') + (!isEn ? ' disabled' : '');
+                    %>
+                        <li>
+                            <% if (isEn) { %>
+                                <a href="<%= item.url %>" class="<%= cls %>">
+                                    <i data-lucide="<%= item.icon %>" class="w-5 h-5"></i>
+                                    <span><%= item.label %></span>
+                                </a>
+                            <% } else { %>
+                                <a href="#" class="<%= cls %>" tabindex="-1" aria-disabled="true" title="Coming Soon">
+                                    <i data-lucide="<%= item.icon %>" class="w-5 h-5"></i>
+                                    <span><%= item.label %></span>
+                                </a>
+                            <% } %>
+                        </li>
+                    <% } %>
+                <% }) %>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Fixed Sidebar Footer -->
+    <div class="sidebar-footer">
+        <a href="#" class="logout-link" data-bs-toggle="modal" data-bs-target="#logoutModal">
+            <i data-lucide="log-out" class="w-5 h-5 text-danger"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+</aside>

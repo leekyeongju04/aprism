@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/sidebar') %>
+  <main class="main-content <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'expanded' : '' %>">
+    <%- include('../partials/top-navbar') %>
+
+    <section class="page-header d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="page-title mb-1">Programs & Section Management</h1>
+        <p class="text-muted mb-0" style="font-size: 14px;">Manage degree programs, academic sections, capacity allocations, and section advisers.</p>
+      </div>
+    </section>
+
+    <%- include('../partials/flash-alert') %>
+
+    <!-- Degree Programs -->
+    <div class="row g-4 mb-4">
+      <% programs.forEach(prog => { %>
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="card border-0 shadow-sm rounded-4 h-100 p-3">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="badge bg-primary fs-6"><%= prog.code %></span>
+              <span class="badge bg-success bg-opacity-10 text-success"><%= prog.status %></span>
+            </div>
+            <h6 class="fw-bold mb-1"><%= prog.name %></h6>
+            <div class="text-muted small mt-auto"><%= prog.studentCount %> Students Enrolled</div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <!-- Sections Table -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0">Active Academic Sections</h5>
+        <span class="badge bg-secondary"><%= sections.length %> sections</span>
+      </div>
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Section Identifier</th>
+                <th>Program</th>
+                <th>Year Level</th>
+                <th>Designated Room</th>
+                <th>Assigned Adviser</th>
+                <th>Class Capacity</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% sections.forEach(sec => { %>
+                <tr>
+                  <td class="fw-bold text-primary"><%= sec.name %></td>
+                  <td><span class="badge bg-secondary"><%= sec.program %></span></td>
+                  <td>Year <%= sec.yearLevel %></td>
+                  <td><%= sec.room %></td>
+                  <td class="fw-medium"><%= sec.adviser %></td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <span><%= sec.studentCount %> / <%= sec.capacity %></span>
+                      <div class="progress flex-grow-1" style="width: 80px; height: 6px;">
+                        <div class="progress-bar bg-primary" style="width: <%= (sec.studentCount / sec.capacity) * 100 %>%"></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge bg-success">Active</span></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <%- include('../partials/logout-modal') %>
+  <%- include('../partials/footer') %>
+</body>
+</html>

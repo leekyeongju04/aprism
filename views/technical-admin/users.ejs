@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/sidebar') %>
+  <main class="main-content <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'expanded' : '' %>">
+    <%- include('../partials/top-navbar') %>
+
+    <section class="page-header d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="page-title mb-1">Personnel Account Management</h1>
+        <p class="text-muted mb-0" style="font-size: 14px;">Manage user credentials, roles, and responsibility assignments for STI College Dasmariñas.</p>
+      </div>
+      <div>
+        <button class="btn btn-primary d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#addUserModal">
+          <i data-lucide="user-plus" class="w-4 h-4"></i>
+          <span>Add Personnel</span>
+        </button>
+      </div>
+    </section>
+
+    <%- include('../partials/flash-alert') %>
+
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Personnel Name</th>
+                <th>Employee Number</th>
+                <th>Institutional Email</th>
+                <th>Role</th>
+                <th>Responsibilities</th>
+                <th>Status</th>
+                <th>Last Login</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach(u => { %>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-primary bg-opacity-10 text-primary fw-bold d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; font-size: 13px;">
+                        <%= (u.firstName.charAt(0) + u.lastName.charAt(0)).toUpperCase() %>
+                      </div>
+                      <div>
+                        <div class="fw-semibold"><%= u.firstName %> <%= u.lastName %></div>
+                        <small class="text-muted">@<%= u.username %></small>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="font-monospace text-secondary" style="font-size: 13px;"><%= u.employeeNumber %></td>
+                  <td style="font-size: 13px;"><%= u.email %></td>
+                  <td>
+                    <span class="badge <%= u.roleId === 1 ? 'bg-danger' : (u.roleId === 2 ? 'bg-primary' : (u.roleId === 3 ? 'bg-info text-dark' : 'bg-warning text-dark')) %>">
+                      <%= u.roleName %>
+                    </span>
+                  </td>
+                  <td>
+                    <% if (u.responsibilities && u.responsibilities.length) { %>
+                      <% u.responsibilities.forEach(r => { %>
+                        <span class="badge bg-light text-dark border me-1"><%= r %></span>
+                      <% }) %>
+                    <% } else { %>
+                      <span class="text-muted" style="font-size: 12px;">None</span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <span class="badge <%= u.accountStatus === 'Active' ? 'bg-success' : 'bg-secondary' %>">
+                      <%= u.accountStatus %>
+                    </span>
+                  </td>
+                  <td class="text-muted" style="font-size: 12px;"><%= u.lastLoginAt || 'Never' %></td>
+                  <td class="text-end">
+                    <div class="dropdown">
+                      <button class="btn btn-sm btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Actions
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        <li>
+                          <button class="dropdown-item d-flex align-items-center gap-2" onclick="openResponsibilitiesModal('<%= u.id %>', '<%= u.firstName %> <%= u.lastName %>', <%= JSON.stringify(u.responsibilities || []) %>)">
+                            <i data-lucide="shield-check" class="w-4 h-4 text-primary"></i> Responsibilities
+                          </button>
+                        </li>
+                        <li>
+                          <form action="/actions/users/reset_password" method="POST" onsubmit="return confirm('Reset temporary password for <%= u.firstName %> <%= u.lastName %>?');">
+                            <input type="hidden" name="user_id" value="<%= u.id %>">
+                            <button type="submit" class="dropdown-item d-flex align-items-center gap-2">
+                              <i data-lucide="key" class="w-4 h-4 text-warning"></i> Reset Password
+                            </button>
+                          </form>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                          <form action="/actions/users/toggle_account_status" method="POST">
+                            <input type="hidden" name="user_id" value="<%= u.id %>">
+                            <button type="submit" class="dropdown-item d-flex align-items-center gap-2 <%= u.accountStatus === 'Active' ? 'text-danger' : 'text-success' %>">
+                              <i data-lucide="<%= u.accountStatus === 'Active' ? 'user-x' : 'user-check' %>" class="w-4 h-4"></i>
+                              <%= u.accountStatus === 'Active' ? 'Disable Account' : 'Activate Account' %>
+                            </button>
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow">
+          <form action="/actions/users/create_user" method="POST">
+            <div class="modal-header border-0 pb-0">
+              <h5 class="modal-title fw-bold">Add New Personnel</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+              <div class="row g-3">
+                <div class="col-6">
+                  <label class="form-label small fw-bold">First Name</label>
+                  <input type="text" name="first_name" class="form-control" required placeholder="Juan">
+                </div>
+                <div class="col-6">
+                  <label class="form-label small fw-bold">Last Name</label>
+                  <input type="text" name="last_name" class="form-control" required placeholder="Dela Cruz">
+                </div>
+                <div class="col-12">
+                  <label class="form-label small fw-bold">Institutional Email</label>
+                  <input type="email" name="email" class="form-control" required placeholder="juan.delacruz@dasmarinas.sti.edu.ph">
+                </div>
+                <div class="col-6">
+                  <label class="form-label small fw-bold">Employee Number</label>
+                  <input type="text" name="employee_number" class="form-control" required placeholder="EMP-2026-999">
+                </div>
+                <div class="col-6">
+                  <label class="form-label small fw-bold">Role</label>
+                  <select name="role_id" class="form-select" required>
+                    <option value="1">Technical Administrator</option>
+                    <option value="2">Academic Head</option>
+                    <option value="3" selected>Teacher</option>
+                    <option value="4">Disciplinary Officer</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Create Account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Responsibilities Modal -->
+    <div class="modal fade" id="responsibilitiesModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow">
+          <form action="/actions/users/update_responsibilities" method="POST">
+            <input type="hidden" name="user_id" id="respUserId">
+            <div class="modal-header border-0 pb-0">
+              <h5 class="modal-title fw-bold">Manage Responsibilities</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+              <p class="text-muted small" id="respUserName">Assign designated roles to personnel.</p>
+              <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" name="responsibilities" value="Adviser" id="chkAdviser">
+                <label class="form-check-label fw-semibold" for="chkAdviser">Adviser (Section Advisory & At-Risk Mentoring)</label>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" name="responsibilities" value="Program Head" id="chkProgHead">
+                <label class="form-check-label fw-semibold" for="chkProgHead">Program Head (Program-Level Academic Governance)</label>
+              </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <%- include('../partials/logout-modal') %>
+  <%- include('../partials/footer') %>
+
+  <script>
+    function openResponsibilitiesModal(userId, name, resps) {
+      document.getElementById('respUserId').value = userId;
+      document.getElementById('respUserName').textContent = 'Assign responsibilities to ' + name;
+      document.getElementById('chkAdviser').checked = resps.includes('Adviser');
+      document.getElementById('chkProgHead').checked = resps.includes('Program Head');
+      new bootstrap.Modal(document.getElementById('responsibilitiesModal')).show();
+    }
+  </script>
+</body>
+</html>

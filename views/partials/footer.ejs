@@ -1,0 +1,27 @@
+<!-- Bootstrap Bundle -->
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Lucide Icons -->
+<script src="/assets/vendor/lucide/lucide.min.js"></script>
+<script>
+    window.APP_URL = "";
+</script>
+<!-- Shared JS -->
+<script src="/assets/js/technical-admin.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+        const sidebarNav = document.querySelector(".sidebar-navigation");
+        if (sidebarNav) {
+            let scrollbarTimeout = null;
+            sidebarNav.addEventListener("scroll", () => {
+                sidebarNav.classList.add("is-scrolling");
+                if (scrollbarTimeout) clearTimeout(scrollbarTimeout);
+                scrollbarTimeout = setTimeout(() => {
+                    sidebarNav.classList.remove("is-scrolling");
+                }, 1500);
+            }, { passive: true });
+        }
+    });
+</script>

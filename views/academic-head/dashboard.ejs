@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/sidebar') %>
+  <main class="main-content <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'expanded' : '' %>">
+    <%- include('../partials/top-navbar') %>
+
+    <!-- Page Header & Academic Period Toolbar -->
+    <section class="page-header d-flex justify-content-between align-items-center mb-4">
+      <div class="page-header-left">
+        <h1 class="page-title mb-1">Academic Head Dashboard</h1>
+        <p class="text-muted mb-0" style="font-size: 14px;">Institutional oversight, attendance performance metrics, and intervention tracking.</p>
+      </div>
+      <div class="page-header-right">
+        <a href="/dashboard/academic_head_academic_setup" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+          <span>Academic Setup</span>
+        </a>
+      </div>
+    </section>
+
+    <%- include('../partials/flash-alert') %>
+
+    <!-- Dashboard Statistics (5 Cards) -->
+    <section class="dashboard-stats mb-4">
+      <!-- Card 1: Programs -->
+      <a href="/dashboard/academic_head_sections" class="text-decoration-none">
+        <div class="dashboard-stat-card stat-programs">
+          <div class="dashboard-stat-top">
+            <div class="dashboard-stat-icon">
+              <i data-lucide="graduation-cap"></i>
+            </div>
+            <i data-lucide="chevron-right" class="dashboard-stat-arrow"></i>
+          </div>
+          <span class="dashboard-stat-label">Programs</span>
+          <h2 class="dashboard-stat-value"><%= programs.length %></h2>
+        </div>
+      </a>
+
+      <!-- Card 2: Sections -->
+      <a href="/dashboard/academic_head_sections" class="text-decoration-none">
+        <div class="dashboard-stat-card stat-sections">
+          <div class="dashboard-stat-top">
+            <div class="dashboard-stat-icon">
+              <i data-lucide="layers-3"></i>
+            </div>
+            <i data-lucide="chevron-right" class="dashboard-stat-arrow"></i>
+          </div>
+          <span class="dashboard-stat-label">Sections</span>
+          <h2 class="dashboard-stat-value"><%= sections.length %></h2>
+        </div>
+      </a>
+
+      <!-- Card 3: Subjects -->
+      <a href="/dashboard/academic_head_schedules" class="text-decoration-none">
+        <div class="dashboard-stat-card stat-subjects">
+          <div class="dashboard-stat-top">
+            <div class="dashboard-stat-icon">
+              <i data-lucide="book-open"></i>
+            </div>
+            <i data-lucide="chevron-right" class="dashboard-stat-arrow"></i>
+          </div>
+          <span class="dashboard-stat-label">Subjects</span>
+          <h2 class="dashboard-stat-value"><%= subjects.length %></h2>
+        </div>
+      </a>
+
+      <!-- Card 4: Teachers Assigned -->
+      <a href="/dashboard/academic_head_schedules" class="text-decoration-none">
+        <div class="dashboard-stat-card stat-teachers">
+          <div class="dashboard-stat-top">
+            <div class="dashboard-stat-icon">
+              <i data-lucide="users"></i>
+            </div>
+            <i data-lucide="chevron-right" class="dashboard-stat-arrow"></i>
+          </div>
+          <span class="dashboard-stat-label">Teachers</span>
+          <h2 class="dashboard-stat-value"><%= users.filter(u => u.roleId === 3).length %></h2>
+        </div>
+      </a>
+
+      <!-- Card 5: Overall Attendance -->
+      <a href="/dashboard/academic_head_reports" class="text-decoration-none">
+        <div class="dashboard-stat-card stat-attendance">
+          <div class="dashboard-stat-top">
+            <div class="dashboard-stat-icon">
+              <i data-lucide="clipboard-check"></i>
+            </div>
+            <i data-lucide="chevron-right" class="dashboard-stat-arrow"></i>
+          </div>
+          <span class="dashboard-stat-label">Overall Attendance</span>
+          <h2 class="dashboard-stat-value">86.3%</h2>
+        </div>
+      </a>
+    </section>
+
+    <!-- Dashboard Analytics Grid -->
+    <div class="row g-4 mb-4">
+      <!-- Section Attendance Standings -->
+      <div class="col-12 col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+          <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold mb-0">Program & Section Attendance Performance</h5>
+            <span class="badge bg-light text-dark border">Term: Prelim</span>
+          </div>
+          <div class="card-body p-4">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Section</th>
+                    <th>Program</th>
+                    <th>Adviser</th>
+                    <th>Enrolled</th>
+                    <th>Attendance Rate</th>
+                    <th>Risk Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% sections.forEach(sec => { %>
+                    <tr>
+                      <td class="fw-bold text-primary"><%= sec.name %></td>
+                      <td><span class="badge bg-secondary"><%= sec.program %></span></td>
+                      <td><%= sec.adviser %></td>
+                      <td><%= sec.studentCount %> / <%= sec.capacity %></td>
+                      <td>
+                        <div class="d-flex align-items-center gap-2">
+                          <div class="progress flex-grow-1" style="height: 6px;">
+                            <div class="progress-bar <%= sec.name === 'BSIT-401' ? 'bg-success' : 'bg-primary' %>" style="width: <%= sec.name === 'BSIT-401' ? '88%' : '84%' %>"></div>
+                          </div>
+                          <span class="small fw-semibold"><%= sec.name === 'BSIT-401' ? '88%' : '84%' %></span>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success">Normal</span>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Academic Period & Interventions Alert -->
+      <div class="col-12 col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+          <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+            <h5 class="fw-bold mb-0">Active Academic Period</h5>
+          </div>
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="p-3 rounded-circle bg-primary bg-opacity-10 text-primary">
+                <i data-lucide="calendar" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h6 class="fw-bold mb-0">A.Y. <%= currentSchoolYear %></h6>
+                <small class="text-muted">1st Semester • Prelim Period</small>
+              </div>
+            </div>
+            <div class="list-group list-group-flush small">
+              <div class="list-group-item px-0 py-2 d-flex justify-content-between">
+                <span class="text-muted">Start Date:</span>
+                <span class="fw-semibold">August 10, 2026</span>
+              </div>
+              <div class="list-group-item px-0 py-2 d-flex justify-content-between">
+                <span class="text-muted">End Date:</span>
+                <span class="fw-semibold">September 01, 2026</span>
+              </div>
+              <div class="list-group-item px-0 py-2 d-flex justify-content-between">
+                <span class="text-muted">Attendance Threshold:</span>
+                <span class="fw-semibold text-danger"><%= monitoringThresholds.attendanceThreshold %>% Minimum</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold mb-0">Student Interventions</h5>
+            <span class="badge bg-danger"><%= referrals.length %> active</span>
+          </div>
+          <div class="card-body p-4">
+            <% referrals.forEach(ref => { %>
+              <div class="p-2 border rounded-3 mb-2 bg-light">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="fw-semibold small"><%= ref.studentName %></span>
+                  <span class="badge <%= ref.urgency === 'High' ? 'bg-danger' : 'bg-warning text-dark' %>" style="font-size: 10px;"><%= ref.urgency %></span>
+                </div>
+                <div class="text-muted" style="font-size: 11px;"><%= ref.reason %> • <%= ref.section %></div>
+              </div>
+            <% }) %>
+            <a href="/dashboard/academic_head_reports" class="btn btn-outline-secondary btn-sm w-100 mt-2">View Reports</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <%- include('../partials/logout-modal') %>
+  <%- include('../partials/footer') %>
+</body>
+</html>

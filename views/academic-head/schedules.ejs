@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/sidebar') %>
+  <main class="main-content <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'expanded' : '' %>">
+    <%- include('../partials/top-navbar') %>
+
+    <section class="page-header d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="page-title mb-1">Class Schedules & Course Offerings</h1>
+        <p class="text-muted mb-0" style="font-size: 14px;">Schedule timetable for academic offerings, faculty assignments, and rooms.</p>
+      </div>
+    </section>
+
+    <%- include('../partials/flash-alert') %>
+
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0">Master Class Schedules</h5>
+        <span class="badge bg-primary">A.Y. <%= currentSchoolYear %></span>
+      </div>
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Subject Code</th>
+                <th>Course Description</th>
+                <th>Section</th>
+                <th>Timetable / Schedule</th>
+                <th>Room</th>
+                <th>Assigned Teacher</th>
+                <th>Roster Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% operationalClasses.forEach(cls => { %>
+                <tr>
+                  <td class="fw-bold text-primary"><%= cls.subjectCode %></td>
+                  <td class="fw-semibold"><%= cls.subjectName %></td>
+                  <td><span class="badge bg-secondary"><%= cls.section %></span></td>
+                  <td class="text-nowrap" style="font-size: 13px;">
+                    <i data-lucide="clock" class="w-4 h-4 text-muted me-1 inline-block"></i>
+                    <%= cls.schedule %>
+                  </td>
+                  <td><span class="badge bg-light text-dark border"><%= cls.room %></span></td>
+                  <td>Prof. Maria Santos</td>
+                  <td><%= cls.studentCount %> Students</td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <%- include('../partials/logout-modal') %>
+  <%- include('../partials/footer') %>
+</body>
+</html>

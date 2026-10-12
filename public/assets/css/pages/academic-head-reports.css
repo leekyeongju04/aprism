@@ -1,0 +1,743 @@
+@import url("academic-head-registry.css");
+
+.reports-page {
+  max-width: none;
+}
+
+@media (min-width: 768px) {
+  .main-content:has(> .content-wrapper.reports-page) {
+    display: flex;
+    min-height: 100vh;
+    min-height: 100dvh;
+    flex-direction: column;
+  }
+
+  .main-content:has(> .content-wrapper.reports-page) > .top-navbar {
+    flex: 0 0 auto;
+  }
+
+  .main-content:has(> .content-wrapper.reports-page) > .content-wrapper.reports-page {
+    display: flex;
+    min-height: 0;
+    flex: 1 1 auto;
+    flex-direction: column;
+  }
+
+  .reports-page > .page-header,
+  .reports-page > .registry-feedback,
+  .reports-page > .reports-control-card {
+    flex: 0 0 auto;
+  }
+
+  .reports-page > .reports-results-card {
+    display: flex;
+    min-height: 0;
+    flex: 1 1 auto;
+    flex-direction: column;
+  }
+}
+
+.reports-page .module-card {
+  border: 1px solid #e5edf5;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(17, 62, 100, .05);
+  padding: 1.35rem;
+}
+
+.academic-head-context,
+.report-context-note {
+  color: #64748b;
+  font-size: .78rem;
+}
+
+.reports-control-card,
+.reports-results-card {
+  margin-bottom: .75rem;
+}
+
+.reports-filter-toolbar {
+  display: grid;
+  gap: .75rem;
+  align-items: end;
+}
+
+.reports-filter-toolbar label {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: .35rem;
+}
+
+.reports-filter-toolbar label span {
+  color: #64748b;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.reports-filter-toolbar input,
+.reports-filter-toolbar select {
+  width: 100%;
+  min-height: 40px;
+  padding: .55rem .7rem;
+  border: 1px solid #dbe6f2;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--sti-navy);
+  font-size: .82rem;
+}
+
+.reports-filter-toolbar input:focus,
+.reports-filter-toolbar select:focus {
+  border-color: var(--sti-blue);
+  outline: 2px solid rgba(13, 99, 181, .12);
+}
+
+.reports-results-card {
+  overflow: hidden;
+}
+
+.reports-results-card .registry-table-heading > div {
+  min-width: 0;
+}
+
+.reports-table {
+  min-width: 1040px;
+}
+
+.reports-table th:nth-child(n + 3),
+.reports-table td:nth-child(n + 3) {
+  text-align: center;
+}
+
+.reports-page .reports-table--placement td[data-label="Academic Placement"] {
+  text-align: left;
+}
+
+.reports-page .reports-table--placement .report-placement-summary {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: .12rem;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.reports-page .reports-table--placement .report-placement-summary > strong,
+.reports-page .reports-table--placement .report-placement-summary > span {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.reports-table th:first-child,
+.reports-table td:first-child,
+.reports-table th:nth-child(2),
+.reports-table td:nth-child(2) {
+  text-align: left;
+}
+
+.report-cell-student-number {
+  color: var(--sti-navy);
+  font-weight: 750;
+}
+
+.report-cell-reason {
+  min-width: 220px;
+  max-width: 420px;
+  text-align: left !important;
+  white-space: normal;
+}
+
+.reports-control-card {
+  background: #fbfcfe;
+}
+
+.reports-filter-actions {
+  display: flex;
+  align-items: end;
+  gap: .5rem;
+  width: max-content;
+  justify-self: end;
+}
+
+.reports-filter-actions .aprism-action-btn {
+  min-height: 42px;
+  justify-content: center;
+}
+
+.reports-table .table-row-number {
+  width: 3rem;
+  color: #8295a6;
+  font-size: .72rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center !important;
+}
+
+.reports-table td {
+  overflow-wrap: anywhere;
+}
+
+/* Reports retain their dense table, but the final context/value column stays
+   available at the edge of the bounded data region. */
+@media (min-width: 761px) {
+  .reports-page .reports-table th:last-child,
+  .reports-page .reports-table td:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    min-width: 135px;
+    background: #ffffff;
+    box-shadow: -6px 0 12px rgba(18, 59, 93, 0.05);
+  }
+
+  .reports-page .reports-table th:last-child {
+    background: #f8fafc;
+  }
+
+  .reports-page .reports-table tbody tr:hover td:last-child {
+    background: #ffffff;
+  }
+}
+
+/* Report controls follow the reference's two deliberate desktop rows. */
+.reports-page .reports-control-card,
+.reports-page .reports-results-card {
+  min-width: 0;
+}
+
+.reports-filter-toolbar {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-areas:
+    "report report report search search search search school-year school-year school-year context context"
+    "level level program program section section status status actions actions actions actions";
+  row-gap: .7rem;
+}
+
+.reports-report-type { grid-area: report; }
+.reports-search { grid-area: search; }
+.reports-school-year { grid-area: school-year; }
+.reports-context { grid-area: context; }
+.reports-academic-level { grid-area: level; }
+.reports-program { grid-area: program; }
+.reports-section { grid-area: section; }
+.reports-teacher { grid-area: teacher; }
+.reports-status { grid-area: status; }
+.reports-filter-actions { grid-area: actions; }
+
+.reports-filter-toolbar:not(:has(.reports-academic-level)) {
+  grid-template-areas:
+    "report report report search search search search school-year school-year school-year context context"
+    "teacher teacher teacher section section section status status actions actions actions actions";
+}
+
+.reports-table-wrapper {
+  /* The imported registry base reserves 430px for other registry workspaces.
+     Reports should size to its actual six rows and pagination instead. */
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+@media (min-width: 768px) {
+  .reports-table-wrapper:has(.registry-empty-state) {
+    display: flex;
+  }
+
+  .reports-table-wrapper:has(.registry-empty-state) .reports-table {
+    height: 100%;
+    flex: 1 1 auto;
+  }
+
+  .reports-table-wrapper:has(.registry-empty-state) .reports-table tbody,
+  .reports-table-wrapper:has(.registry-empty-state) .reports-table tbody tr,
+  .reports-table-wrapper:has(.registry-empty-state) .reports-table tbody td[colspan] {
+    height: 100%;
+  }
+
+  .reports-table-wrapper:has(.registry-empty-state) .registry-empty-state {
+    display: flex;
+    height: 100%;
+    min-height: clamp(18rem, 42vh, 28rem);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-inline: auto;
+    text-align: center;
+  }
+}
+
+.reports-table {
+  table-layout: fixed;
+}
+
+.reports-page .registry-empty-state {
+  min-height: 0;
+}
+
+.reports-table--placement th,
+.reports-table--placement td { width: 10%; }
+.reports-table--placement {
+  width: 100%;
+  min-width: 0;
+}
+.reports-table--placement th:nth-child(1),
+.reports-table--placement td:nth-child(1) { width: 4%; }
+.reports-table--placement th:nth-child(2),
+.reports-table--placement td:nth-child(2) { width: 23%; }
+.reports-table--placement th:nth-child(3),
+.reports-table--placement td:nth-child(3) { width: 37%; }
+.reports-table--placement th:nth-child(4),
+.reports-table--placement td:nth-child(4) { width: 17%; }
+.reports-table--placement th:nth-child(5),
+.reports-table--placement td:nth-child(5) { width: 19%; }
+.reports-table--placement .registry-status-badge {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.reports-table--sections th:nth-child(1),
+.reports-table--sections td:nth-child(1) { width: 4%; }
+.reports-table--sections th:nth-child(2),
+.reports-table--sections td:nth-child(2) { width: 15%; }
+.reports-table--sections th:nth-child(3),
+.reports-table--sections td:nth-child(3) { width: 24%; }
+.reports-table--sections th:nth-child(4),
+.reports-table--sections td:nth-child(4) { width: 16%; }
+.reports-table--sections th:nth-child(5),
+.reports-table--sections td:nth-child(5) { width: 10%; }
+.reports-table--sections th:nth-child(6),
+.reports-table--sections td:nth-child(6) { width: 17%; }
+.reports-table--sections th:nth-child(7),
+.reports-table--sections td:nth-child(7) { width: 14%; }
+
+.reports-table--attendance th:nth-child(1),
+.reports-table--attendance td:nth-child(1) { width: 4%; }
+.reports-table--attendance th:nth-child(2),
+.reports-table--attendance td:nth-child(2) { width: 16%; }
+.reports-table--attendance th:nth-child(3),
+.reports-table--attendance td:nth-child(3) { width: 10%; }
+.reports-table--attendance th:nth-child(4),
+.reports-table--attendance td:nth-child(4) { width: 14%; }
+.reports-table--attendance th:nth-child(5),
+.reports-table--attendance td:nth-child(5) { width: 9%; }
+.reports-table--attendance th:nth-child(6),
+.reports-table--attendance td:nth-child(6) { width: 9%; }
+.reports-table--attendance th:nth-child(7),
+.reports-table--attendance td:nth-child(7) { width: 10%; }
+.reports-table--attendance th:nth-child(8),
+.reports-table--attendance td:nth-child(8),
+.reports-table--attendance th:nth-child(9),
+.reports-table--attendance td:nth-child(9) { width: 9%; }
+.reports-table--attendance th:nth-child(10),
+.reports-table--attendance td:nth-child(10) { width: 10%; }
+
+.reports-table--referrals th:nth-child(1),
+.reports-table--referrals td:nth-child(1) { width: 4%; }
+.reports-table--referrals th:nth-child(2),
+.reports-table--referrals td:nth-child(2) { width: 11%; }
+.reports-table--referrals th:nth-child(3),
+.reports-table--referrals td:nth-child(3) { width: 14%; }
+.reports-table--referrals th:nth-child(4),
+.reports-table--referrals td:nth-child(4) { width: 16%; }
+.reports-table--referrals th:nth-child(5),
+.reports-table--referrals td:nth-child(5) { width: 10%; }
+.reports-table--referrals th:nth-child(6),
+.reports-table--referrals td:nth-child(6) { width: 20%; }
+.reports-table--referrals th:nth-child(7),
+.reports-table--referrals td:nth-child(7) { width: 11%; }
+.reports-table--referrals th:nth-child(8),
+.reports-table--referrals td:nth-child(8) { width: 14%; }
+
+@media (max-width: 767px) {
+  .reports-table {
+    table-layout: auto;
+  }
+}
+
+.reports-table th:first-child,
+.reports-table td:first-child {
+  width: 3rem;
+  min-width: 3rem;
+  max-width: 3rem;
+  padding-inline: .55rem;
+}
+
+.reports-table td {
+  line-height: 1.35;
+}
+
+/* Keep the report workspace bounded and let its data region use the remaining
+   desktop height without stretching the actual records. */
+.main-content .reports-page .page-header {
+  margin-bottom: .75rem;
+}
+
+.main-content .reports-page .module-card {
+  padding: 1rem;
+}
+
+.reports-page .registry-table-heading {
+  margin-bottom: .55rem;
+}
+
+.main-content .reports-page .reports-table th,
+.main-content .reports-page .reports-table td {
+  padding-block: .5rem;
+}
+
+.reports-page .registry-pagination {
+  margin-top: .55rem;
+}
+
+@media (max-width: 768px) {
+  .main-content .reports-page .module-card {
+    padding: .85rem;
+  }
+}
+
+.report-status-neutral {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+@media (max-width: 1100px) {
+  .reports-filter-toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "report search"
+      "school-year context"
+      "level program"
+      "section status"
+      "actions actions";
+  }
+
+  .reports-filter-toolbar:not(:has(.reports-academic-level)) {
+    grid-template-areas:
+      "report search"
+      "school-year context"
+      "teacher section"
+      "status status"
+      "actions actions";
+  }
+
+  .reports-filter-toolbar .reports-filter-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reports-page .registry-pagination .registry-page-link {
+    min-width: 42px;
+    height: 42px;
+  }
+}
+
+@media (max-width: 520px) {
+  .reports-filter-toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "report report"
+      "search search"
+      "school-year context"
+      "level program"
+      "section status"
+      "actions actions";
+  }
+
+  .reports-filter-toolbar:not(:has(.reports-academic-level)) {
+    grid-template-areas:
+      "report report"
+      "search search"
+      "school-year context"
+      "teacher teacher"
+      "section section"
+      "status status"
+      "actions actions";
+  }
+
+  .reports-filter-actions .aprism-action-btn {
+    width: 100%;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 767px) {
+  .reports-filter-toolbar input,
+  .reports-filter-toolbar select,
+  .reports-filter-actions .aprism-action-btn {
+    min-height: 44px;
+  }
+
+  .reports-table td.report-cell-student-number,
+  .reports-table td.report-cell-student-name,
+  .reports-table td.report-cell-subject-name {
+    color: var(--sti-navy);
+    font-weight: 750;
+  }
+
+  .reports-table td.report-cell-student-number {
+    white-space: nowrap;
+  }
+
+  .reports-table .registry-status-badge {
+    max-width: 100%;
+    white-space: normal;
+    text-align: left;
+  }
+}
+
+/* Keep the chosen report's table and the other report schemas readable when
+   the available workspace is narrower than the registry's full table width. */
+@media (min-width: 1101px) and (max-width: 1280px) {
+  .main-content .reports-page .reports-results-card .reports-table-wrapper {
+    overflow-x: hidden;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 1100px) {
+  .main-content .reports-page .reports-results-card .reports-table-wrapper {
+    overflow: visible;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    table-layout: auto;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table tbody {
+    display: grid;
+    width: 100%;
+    gap: .65rem;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table tbody tr:not(:has(td[colspan])) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 .9rem;
+    min-width: 0;
+    padding: .7rem .85rem;
+    border: 1px solid #dbe5ef;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 3px 10px rgba(15, 45, 75, .04);
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table tbody td:not([colspan]) {
+    display: grid;
+    grid-template-columns: minmax(6.5rem, .42fr) minmax(0, 1fr);
+    align-items: start;
+    gap: .35rem .7rem;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    padding: .48rem 0;
+    border: 0;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table tbody td::before {
+    content: attr(data-label);
+    color: #718096;
+    font-size: .65rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    line-height: 1.45;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table tbody td.table-row-number {
+    display: none;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table tbody tr:not(:has(td[colspan])) td:last-child,
+  .main-content .reports-page .reports-results-card .reports-table thead th:last-child {
+    position: static;
+    box-shadow: none;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table tbody td[colspan] {
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table tbody td[colspan]::before {
+    display: none;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table tbody tr:has(td[colspan]) {
+    display: block;
+    padding: .25rem;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table .registry-status-badge {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table td.report-cell-reason {
+    min-width: 0;
+    max-width: none;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table--placement tbody tr:not(:has(td[colspan])) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 12rem);
+    grid-template-areas:
+      "student status"
+      "placement placement"
+      "context context";
+    gap: 0 .8rem;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table--placement tbody td[data-label="Student"] {
+    display: flex;
+    grid-area: student;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .18rem;
+    padding: 0 0 .65rem;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table--placement tbody td[data-label="Student"] strong {
+    color: var(--sti-navy);
+    overflow-wrap: anywhere;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table--placement tbody td[data-label="Student"]::before {
+    display: none;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table--placement tbody td[data-label="Student"] small {
+    margin: 0;
+    color: #64748b;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table--placement tbody td[data-label="Academic Placement"] {
+    grid-area: placement;
+    border-top: 1px solid #edf2f7;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table--placement tbody td[data-label="Academic Context"] {
+    grid-area: context;
+    border-top: 1px solid #edf2f7;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table--placement tbody td[data-label="Placement Status"] {
+    display: flex;
+    grid-area: status;
+    min-width: 0;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 0 0 .65rem;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table--placement tbody td[data-label="Placement Status"]::before {
+    display: none;
+  }
+
+  .main-content .reports-page .reports-results-card .report-placement-summary,
+  .main-content .reports-page .reports-results-card .report-academic-context {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: .12rem;
+  }
+
+  .main-content .reports-page .reports-results-card .report-placement-summary > strong,
+  .main-content .reports-page .reports-results-card .report-academic-context > strong {
+    color: var(--sti-navy);
+    font-weight: 750;
+  }
+
+  .main-content .reports-page .reports-results-card .report-placement-state,
+  .main-content .reports-page .reports-results-card .report-context-empty {
+    color: #718096;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table-wrapper:has(.registry-empty-state) .registry-empty-state {
+    min-height: clamp(18rem, 42vh, 28rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .main-content:has(> .content-wrapper.reports-page) {
+    display: block;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .main-content:has(> .content-wrapper.reports-page) > .content-wrapper.reports-page {
+    display: block;
+    min-height: 0;
+    flex: initial;
+  }
+
+  .reports-page > .reports-results-card {
+    display: block;
+    min-height: 0;
+    flex: initial;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table-wrapper {
+    display: block;
+    min-height: 0;
+    flex: initial;
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table-wrapper:has(.registry-empty-state) .registry-empty-state {
+    min-height: 15rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .main-content .reports-page .reports-results-card .reports-table tbody tr:not(:has(td[colspan])) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table tbody td:not([colspan]) {
+    grid-template-columns: minmax(6rem, .4fr) minmax(0, 1fr);
+  }
+
+  .main-content .reports-page .reports-results-card .reports-table--placement tbody tr:not(:has(td[colspan])) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 9.5rem);
+    grid-template-areas:
+      "student status"
+      "placement placement"
+      "context context";
+    gap: .3rem .55rem;
+  }
+}

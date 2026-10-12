@@ -1,0 +1,22 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'APRISM' %> - APRISM</title>
+    <meta name="description" content="An AprilTag-Based Student Monitoring and Intervention Support System for Academic Personnel at STI College Dasmariñas.">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/motion.css">
+    <link rel="stylesheet" href="/assets/css/layout.css">
+    <!-- Role Stylesheet -->
+    <% if (typeof roleStylesheet !== 'undefined' && roleStylesheet) { %>
+        <link rel="stylesheet" href="/<%= roleStylesheet.replace(/^\//, '') %>">
+    <% } %>
+    <!-- Page Stylesheet -->
+    <% if (typeof pageStylesheet !== 'undefined' && pageStylesheet) { %>
+        <link rel="stylesheet" href="/<%= pageStylesheet.replace(/^\//, '') %>">
+    <% } %>
+</head>

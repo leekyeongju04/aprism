@@ -1,0 +1,29 @@
+<header class="top-navbar">
+    <div class="navbar-left">
+        <button class="mobile-menu-toggle" id="menuToggle" type="button" aria-label="Toggle menu">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <button class="back-btn" id="sidebarToggle" type="button" aria-label="Toggle sidebar">
+            <i data-lucide="chevron-left" id="sidebarToggleIcon" class="sidebar-toggle-icon"></i>
+        </button>
+    </div>
+    <div class="navbar-right">
+        <div class="active-term-badge">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+            <span>Academic Year: <%= typeof currentSchoolYear !== 'undefined' && currentSchoolYear ? currentSchoolYear : '2026-2027' %></span>
+        </div>
+        <div class="notification-bell" title="System Notifications">
+            <i data-lucide="bell" class="w-5 h-5"></i>
+            <span class="notification-dot"></span>
+        </div>
+        <div class="user-profile">
+            <div class="profile-text">
+                <h4 class="profile-name"><%= user ? `${user.firstName} ${user.lastName}` : 'Guest' %></h4>
+                <p class="profile-role"><%= user ? user.roleName : 'Visitor' %></p>
+            </div>
+            <div class="profile-avatar">
+                <%= user ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase() : 'U' %>
+            </div>
+        </div>
+    </div>
+</header>

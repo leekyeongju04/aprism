@@ -1,0 +1,15 @@
+<% if (typeof flashSuccess !== 'undefined' && flashSuccess) { %>
+    <div class="alert alert-success alert-dismissible fade show mb-4 d-flex align-items-center gap-2" role="alert">
+        <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0 text-success"></i>
+        <div><%= flashSuccess %></div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<% if (typeof flashError !== 'undefined' && flashError) { %>
+    <div class="alert alert-danger alert-dismissible fade show mb-4 d-flex align-items-center gap-2" role="alert">
+        <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0 text-danger"></i>
+        <div><%= flashError %></div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/sidebar') %>
+  <main class="main-content <%= typeof sidebarCollapsed !== 'undefined' && sidebarCollapsed ? 'expanded' : '' %>">
+    <%- include('../partials/top-navbar') %>
+    
+    <!-- Dashboard Title Banner -->
+    <section class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">Technical Administrator Dashboard</h1>
+      </div>
+      <div class="page-header-right">
+        <button class="refresh-btn" onclick="location.reload();" title="Refresh Dashboard">
+          <i data-lucide="refresh-cw" class="animate-hover-spin"></i>
+        </button>
+      </div>
+    </section>
+
+    <%- include('../partials/flash-alert') %>
+
+    <!-- Quick Stats Grid -->
+    <section class="row g-4 mb-4">
+      <div class="col-12 col-md-6 col-xl-3">
+        <div class="stat-card dashboard-nav-card" data-url="/dashboard/technical_admin_users" style="cursor: pointer;">
+          <div class="stat-icon-box health">
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </div>
+          <p class="stat-label">Total Personnel</p>
+          <h3 class="stat-value"><%= users.length %></h3>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-xl-3">
+        <div class="stat-card dashboard-nav-card" data-url="/dashboard/technical_admin_users" style="cursor: pointer;">
+          <div class="stat-icon-box sessions">
+            <i data-lucide="users" class="w-6 h-6"></i>
+          </div>
+          <p class="stat-label">Active Accounts</p>
+          <h3 class="stat-value"><%= users.filter(u => u.accountStatus === 'Active').length %></h3>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-xl-3">
+        <div class="stat-card dashboard-nav-card" data-url="/dashboard/technical_admin_users" style="cursor: pointer;">
+          <div class="stat-icon-box db">
+            <i data-lucide="user-x" class="w-6 h-6"></i>
+          </div>
+          <p class="stat-label">Disabled Accounts</p>
+          <h3 class="stat-value"><%= users.filter(u => u.accountStatus === 'Disabled').length %></h3>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-xl-3">
+        <div class="stat-card dashboard-nav-card" data-url="/dashboard/technical_admin_backups" style="cursor: pointer;">
+          <div class="stat-icon-box disk">
+            <i data-lucide="database-backup" class="w-6 h-6"></i>
+          </div>
+          <p class="stat-label">Available Backups</p>
+          <h3 class="stat-value"><%= backups.length %></h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Secondary Columns Grid (Audit Logs + Backups) -->
+    <section class="row g-4">
+      <!-- System Audit Logs Section -->
+      <div class="col-12 col-xl-8">
+        <a href="/dashboard/technical_admin_audit_logs" class="dashboard-card-link text-decoration-none">
+          <div class="section-card dashboard-preview-card">
+            <div class="section-card-header d-flex justify-content-between align-items-center mb-3">
+              <h2 class="section-title h5 mb-0">System Audit Log</h2>
+              <span class="badge bg-primary">View All</span>
+            </div>
+            <div class="audit-table-container table-responsive">
+              <table class="table audit-table align-middle">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                    <th>IP Address</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% auditLogs.slice(0, 5).forEach(log => { %>
+                    <tr>
+                      <td class="text-nowrap" style="font-size: 13px;"><%= log.createdAt %></td>
+                      <td class="fw-medium"><%= log.userName %></td>
+                      <td><span class="badge bg-secondary" style="font-size: 11px;"><%= log.roleName %></span></td>
+                      <td><span class="badge bg-info text-dark" style="font-size: 11px;"><%= log.action %></span></td>
+                      <td class="text-muted" style="font-size: 12px;"><%= log.ip %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Quick Actions and Backups Preview -->
+      <div class="col-12 col-xl-4">
+        <div class="section-card mb-4">
+          <div class="section-card-header mb-3">
+            <h2 class="section-title h5 mb-0">System Backups</h2>
+          </div>
+          <div class="list-group list-group-flush">
+            <% backups.slice(0, 3).forEach(b => { %>
+              <div class="list-group-item px-0 py-2 d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="fw-semibold text-truncate" style="max-width: 200px; font-size: 13px;"><%= b.filename %></div>
+                  <small class="text-muted"><%= b.size %> • <%= b.createdAt %></small>
+                </div>
+                <a href="/actions/system/download_backup?file=<%= encodeURIComponent(b.filename) %>" class="btn btn-sm btn-outline-primary py-1 px-2" title="Download">
+                  <i data-lucide="download" class="w-4 h-4"></i>
+                </a>
+              </div>
+            <% }) %>
+          </div>
+          <div class="mt-3">
+            <a href="/dashboard/technical_admin_backups" class="btn btn-outline-primary btn-sm w-100">Manage All Backups</a>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-card-header mb-3">
+            <h2 class="section-title h5 mb-0">Quick Actions</h2>
+          </div>
+          <div class="d-grid gap-2">
+            <a href="/dashboard/technical_admin_users" class="btn btn-outline-secondary text-start d-flex align-items-center gap-2">
+              <i data-lucide="user-plus" class="w-4 h-4 text-primary"></i>
+              <span>Create / Manage Users</span>
+            </a>
+            <a href="/dashboard/technical_admin_settings" class="btn btn-outline-secondary text-start d-flex align-items-center gap-2">
+              <i data-lucide="shield" class="w-4 h-4 text-warning"></i>
+              <span>System Security Settings</span>
+            </a>
+            <form action="/actions/system/create_backup" method="POST" class="m-0">
+              <button type="submit" class="btn btn-outline-secondary text-start d-flex align-items-center gap-2 w-100">
+                <i data-lucide="database" class="w-4 h-4 text-success"></i>
+                <span>Create Instant DB Backup</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <%- include('../partials/logout-modal') %>
+  <%- include('../partials/footer') %>
+</body>
+</html>
